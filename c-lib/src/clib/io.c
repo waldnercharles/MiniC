@@ -74,7 +74,7 @@ static const char *
 io_write_until_next_specifier(const char *fmt, struct io_write_context *p)
 {
     // Align to a multiple of 4
-    while (((ptr_t)*fmt) & 3)
+    while ((cast(ptr_t, fmt) & 3)
     {
     percent_check:
         if (*fmt == '%')
