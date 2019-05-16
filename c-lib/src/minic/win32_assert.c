@@ -1,6 +1,6 @@
-#include "clib/assert.h"
+#include "minic/assert.h"
 
-#include "clib/int.h"
+#include "minic/int.h"
 
 #include <win32/dbghelp.h>
 #include <win32/file.h>

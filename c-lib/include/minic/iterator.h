@@ -1,7 +1,7 @@
 #ifndef ITERATOR_H
 #define ITERATOR_H
 
-#include "clib/int.h"
+#include "minic/int.h"
 
 typedef struct
 {

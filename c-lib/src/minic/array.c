@@ -1,7 +1,7 @@
-#include "clib/array.h"
-#include "clib/assert.h"
-#include "clib/math.h"
-#include "clib/memory.h"
+#include "minic/array.h"
+#include "minic/assert.h"
+#include "minic/math.h"
+#include "minic/memory.h"
 
 overload void
 array_init(Array *arr, Allocator *allocator, u32 element_size, u32 capacity)

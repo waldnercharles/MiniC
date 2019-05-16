@@ -1,5 +1,5 @@
-#include "clib/assert.h"
-#include "clib/iterator.h"
+#include "minic/assert.h"
+#include "minic/iterator.h"
 
 void *
 iterator_get(Iterator *iterator)

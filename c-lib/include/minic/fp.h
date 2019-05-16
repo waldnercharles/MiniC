@@ -1,7 +1,7 @@
 #ifndef FP_H
 #define FP_H
 
-#include "clib/int.h"
+#include "minic/int.h"
 
 struct fp
 {

@@ -1,4 +1,4 @@
-#include "clib/timer.h"
+#include "minic/timer.h"
 
 r64
 timer_seconds(u64 ticks)

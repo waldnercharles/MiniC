@@ -1,5 +1,5 @@
-#include <clib/int.h>
-#include <clib/assert.h>
+#include <minic/int.h>
+#include <minic/assert.h>
 
 u32
 string_copy(char *dst, const char *src, s32 start, s32 end)

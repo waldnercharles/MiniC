@@ -1,7 +1,7 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include "clib/int.h"
+#include "minic/int.h"
 
 struct timer;
 

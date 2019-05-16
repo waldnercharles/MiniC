@@ -1,4 +1,4 @@
-#include "clib/int.h"
+#include "minic/int.h"
 
 // Mersenne Twister
 #define RAND_MT_LENGTH 624u

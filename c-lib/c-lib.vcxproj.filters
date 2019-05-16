@@ -21,68 +21,50 @@
     <ClCompile Include="src\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\array.c">
+    <ClCompile Include="src\minic\allocator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\io.c">
+    <ClCompile Include="src\minic\array.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\timer.c">
+    <ClCompile Include="src\minic\fp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\memory.c">
+    <ClCompile Include="src\minic\io.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\math.c">
+    <ClCompile Include="src\minic\iterator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\rand.c">
+    <ClCompile Include="src\minic\math.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\fp.c">
+    <ClCompile Include="src\minic\memory.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\win32_assert.c">
+    <ClCompile Include="src\minic\rand.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\win32_io.c">
+    <ClCompile Include="src\minic\string.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\allocator.c">
+    <ClCompile Include="src\minic\timer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\win32_allocator_default.c">
+    <ClCompile Include="src\minic\win32_allocator_default.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\iterator.c">
+    <ClCompile Include="src\minic\win32_assert.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\win32_file.c">
+    <ClCompile Include="src\minic\win32_file.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clib\string.c">
+    <ClCompile Include="src\minic\win32_io.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\clib\array.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\clib\int.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\clib\io.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\clib\math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\clib\memory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\clib\timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="third_party\include\win32\atomic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -131,25 +113,43 @@
     <ClInclude Include="third_party\include\win32\windows_modular.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\clib\rand.h">
+    <ClInclude Include="include\minic\allocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\clib\fp.h">
+    <ClInclude Include="include\minic\allocator_default.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\clib\assert.h">
+    <ClInclude Include="include\minic\array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\clib\win32_timer.c">
+    <ClInclude Include="include\minic\assert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\clib\allocator.h">
+    <ClInclude Include="include\minic\fp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\clib\allocator_default.h">
+    <ClInclude Include="include\minic\int.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\clib\iterator.h">
+    <ClInclude Include="include\minic\io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\minic\iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\minic\math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\minic\memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\minic\rand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\minic\timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\minic\win32_timer.c">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

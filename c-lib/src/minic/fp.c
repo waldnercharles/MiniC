@@ -1,9 +1,9 @@
-#include "clib/fp.h"
+#include "minic/fp.h"
 
-#include "clib/assert.h"
-#include "clib/math.h"
-#include "clib/int.h"
-#include "clib/memory.h"
+#include "minic/assert.h"
+#include "minic/math.h"
+#include "minic/int.h"
+#include "minic/memory.h"
 
 #define FP_SIGNIFICAND_SIZE 64
 #define DP_SIGNIFICAND_SIZE 52

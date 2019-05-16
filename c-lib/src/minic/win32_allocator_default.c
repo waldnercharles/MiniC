@@ -1,8 +1,8 @@
 #include <win32/io.h>
 
-#include "clib/allocator_default.h"
-#include "clib/assert.h"
-#include "clib/int.h"
+#include "minic/allocator_default.h"
+#include "minic/assert.h"
+#include "minic/int.h"
 
 void *
 allocator_default_alloc(void *internal_allocator, size_t size)

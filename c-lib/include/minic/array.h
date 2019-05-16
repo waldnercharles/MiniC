@@ -1,9 +1,9 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include "clib/int.h"
-#include "clib/allocator.h"
-#include "clib/iterator.h"
+#include "minic/int.h"
+#include "minic/allocator.h"
+#include "minic/iterator.h"
 
 #define ARRAY_DEFAULT_CAPACITY 2
 

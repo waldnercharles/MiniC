@@ -1,12 +1,12 @@
 #include "win32/windows.h"
 
-#include "clib/allocator_default.h"
-#include "clib/array.h"
-#include "clib/assert.h"
-#include "clib/int.h"
-#include "clib/io.h"
-#include "clib/rand.h"
-#include "clib/timer.h"
+#include "minic/allocator_default.h"
+#include "minic/array.h"
+#include "minic/assert.h"
+#include "minic/int.h"
+#include "minic/io.h"
+#include "minic/rand.h"
+#include "minic/timer.h"
 
 s32
 main()

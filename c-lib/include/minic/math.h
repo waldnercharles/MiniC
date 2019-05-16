@@ -1,7 +1,7 @@
 #ifndef MATH_H
 #define MATH_H
 
-#include "clib/int.h"
+#include "minic/int.h"
 
 overload u32 min(u32 x, u32 y);
 overload u64 min(u64 x, u64 y);

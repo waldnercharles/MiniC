@@ -1,7 +1,7 @@
 #ifndef PRINTF_H
 #define PRINTF_H
 
-#include "clib/int.h"
+#include "minic/int.h"
 
 void *io_std_output_handle();
 

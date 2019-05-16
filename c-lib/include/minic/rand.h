@@ -1,7 +1,7 @@
 #ifndef RAND_H
 #define RAND_H
 
-#include "clib/int.h"
+#include "minic/int.h"
 
 void rand_seed(u64 value);
 

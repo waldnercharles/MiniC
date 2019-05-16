@@ -1,6 +1,6 @@
 #ifndef MEMORY_H
 #define MEMORY_H
-#include "clib/int.h"
+#include "minic/int.h"
 
 void *mem_copy(void *dest, const void *source, u64 length);
 void *mem_move(void *dest, const void *source, u64 length);

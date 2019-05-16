@@ -19,37 +19,37 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\clib\allocator.c" />
-    <ClCompile Include="src\clib\iterator.c" />
-    <ClCompile Include="src\clib\string.c" />
-    <ClCompile Include="src\clib\win32_allocator_default.c" />
-    <ClCompile Include="src\clib\array.c" />
-    <ClCompile Include="src\clib\fp.c" />
-    <ClCompile Include="src\clib\io.c" />
-    <ClCompile Include="src\clib\memory.c" />
-    <ClCompile Include="src\clib\rand.c" />
-    <ClCompile Include="src\clib\win32_assert.c" />
-    <ClCompile Include="src\clib\timer.c" />
-    <ClCompile Include="src\clib\win32_file.c" />
-    <ClCompile Include="src\clib\win32_io.c" />
+    <ClCompile Include="src\minic\allocator.c" />
+    <ClCompile Include="src\minic\iterator.c" />
+    <ClCompile Include="src\minic\string.c" />
+    <ClCompile Include="src\minic\win32_allocator_default.c" />
+    <ClCompile Include="src\minic\array.c" />
+    <ClCompile Include="src\minic\fp.c" />
+    <ClCompile Include="src\minic\io.c" />
+    <ClCompile Include="src\minic\memory.c" />
+    <ClCompile Include="src\minic\rand.c" />
+    <ClCompile Include="src\minic\win32_assert.c" />
+    <ClCompile Include="src\minic\timer.c" />
+    <ClCompile Include="src\minic\win32_file.c" />
+    <ClCompile Include="src\minic\win32_io.c" />
     <ClCompile Include="src\main.c" />
-    <ClCompile Include="src\clib\math.c" />
+    <ClCompile Include="src\minic\math.c" />
     <ClCompile Include="src\unity_build.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\clib\allocator.h" />
-    <ClInclude Include="include\clib\allocator_default.h" />
-    <ClInclude Include="include\clib\array.h" />
-    <ClInclude Include="include\clib\assert.h" />
-    <ClInclude Include="include\clib\fp.h" />
-    <ClInclude Include="include\clib\int.h" />
-    <ClInclude Include="include\clib\io.h" />
-    <ClInclude Include="include\clib\iterator.h" />
-    <ClInclude Include="include\clib\math.h" />
-    <ClInclude Include="include\clib\memory.h" />
-    <ClInclude Include="include\clib\rand.h" />
-    <ClInclude Include="include\clib\timer.h" />
-    <ClInclude Include="src\clib\win32_timer.c" />
+    <ClInclude Include="include\minic\allocator.h" />
+    <ClInclude Include="include\minic\allocator_default.h" />
+    <ClInclude Include="include\minic\array.h" />
+    <ClInclude Include="include\minic\assert.h" />
+    <ClInclude Include="include\minic\fp.h" />
+    <ClInclude Include="include\minic\int.h" />
+    <ClInclude Include="include\minic\io.h" />
+    <ClInclude Include="include\minic\iterator.h" />
+    <ClInclude Include="include\minic\math.h" />
+    <ClInclude Include="include\minic\memory.h" />
+    <ClInclude Include="include\minic\rand.h" />
+    <ClInclude Include="include\minic\timer.h" />
+    <ClInclude Include="src\minic\win32_timer.c" />
     <ClInclude Include="third_party\include\win32\atomic.h" />
     <ClInclude Include="third_party\include\win32\dbghelp.h" />
     <ClInclude Include="third_party\include\win32\dds.h" />
@@ -76,6 +76,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{2F1E14D7-C8EA-4D7C-A849-C621F4A7BECB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>MiniC</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

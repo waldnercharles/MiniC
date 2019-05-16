@@ -1,4 +1,4 @@
-#include "clib/math.h"
+#include "minic/math.h"
 
 /* clang-format off */
 overload u32 min(u32 x, u32 y) { return x < y ? x : y; }

@@ -1,5 +1,5 @@
-#include "clib/allocator.h"
-#include "clib/assert.h"
+#include "minic/allocator.h"
+#include "minic/assert.h"
 
 inline void *
 allocator_alloc(Allocator *allocator, size_t size)

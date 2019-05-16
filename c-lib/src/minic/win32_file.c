@@ -1,4 +1,4 @@
-#include <clib/int.h>
+#include <minic/int.h>
 #include <win32/file.h>
 
 #define FILE_MAX_PATH 1024

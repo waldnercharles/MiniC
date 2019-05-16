@@ -1,6 +1,6 @@
-#include "clib/timer.h"
+#include "minic/timer.h"
 
-#include "clib/int.h"
+#include "minic/int.h"
 #include "win32/misc.h"
 
 struct timer

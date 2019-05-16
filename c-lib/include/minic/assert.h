@@ -1,7 +1,7 @@
 #ifndef ASSERT_H
 #define ASSERT_H
 
-#include "clib/int.h"
+#include "minic/int.h"
 
 inline void
 __assert(bool assertion, const char *message, u32 len);

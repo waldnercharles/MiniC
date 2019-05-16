@@ -1,6 +1,6 @@
-#include "clib/assert.h"
-#include "clib/int.h"
-#include "clib/memory.h"
+#include "minic/assert.h"
+#include "minic/int.h"
+#include "minic/memory.h"
 
 void *
 mem_copy(void *dst, const void *src, u64 length)
