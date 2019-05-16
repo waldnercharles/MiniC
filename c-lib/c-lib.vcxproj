@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\clib\allocator.c" />
     <ClCompile Include="src\clib\iterator.c" />
+    <ClCompile Include="src\clib\string.c" />
     <ClCompile Include="src\clib\win32_allocator_default.c" />
     <ClCompile Include="src\clib\array.c" />
     <ClCompile Include="src\clib\fp.c" />
@@ -29,6 +30,7 @@
     <ClCompile Include="src\clib\rand.c" />
     <ClCompile Include="src\clib\win32_assert.c" />
     <ClCompile Include="src\clib\timer.c" />
+    <ClCompile Include="src\clib\win32_file.c" />
     <ClCompile Include="src\clib\win32_io.c" />
     <ClCompile Include="src\main.c" />
     <ClCompile Include="src\clib\math.c" />

@@ -57,6 +57,12 @@
     <ClCompile Include="src\clib\iterator.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\clib\win32_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clib\string.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\clib\array.h">
