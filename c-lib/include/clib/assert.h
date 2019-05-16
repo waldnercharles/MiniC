@@ -11,6 +11,8 @@ __assert(bool assertion, const char *message, u32 len);
 #define __assert_format(x)                                                     \
     "[ASSERT] (" __FILE__ ":" __assert_to_string(__LINE__) "): Assertion (" x  \
                                                            ") failed.\n"
-#define assert(x) __assert(x, __assert_format(#x), sizeof(__assert_format(#x)))
+#define assert(x)                                                              \
+    __assert(x, __assert_format(#x), sizeof(__assert_format(#x))),             \
+        __assume(!!(x));
 
 #endif
