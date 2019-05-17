@@ -7,6 +7,7 @@
 #include "minic/math.c"
 #include "minic/memory.c"
 #include "minic/rand.c"
+#include "minic/string.c"
 #include "minic/timer.c"
 
 #include "minic/win32_allocator_default.c"

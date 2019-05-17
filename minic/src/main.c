@@ -7,11 +7,12 @@
 #include "minic/io.h"
 #include "minic/rand.h"
 #include "minic/timer.h"
+#include "minic/string.h"
 
 s32
 main()
 {
-    Allocator allocator;
+    /*Allocator allocator;
     allocator_default_init(&allocator);
 
     Array arr;
@@ -27,7 +28,9 @@ main()
         __printf("%i ", *(u32 *)array_get(&arr, i));
     }
 
-    array_free(&arr);
+    array_free(&arr);*/
+
+	__printf("%i", string_length("Hello World!"));
 
     /*struct array_u32 *arr;
     arr = allocator_alloc(&allocator, sizeof(arr));

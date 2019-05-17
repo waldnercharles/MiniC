@@ -48,6 +48,7 @@
     <ClInclude Include="include\minic\math.h" />
     <ClInclude Include="include\minic\memory.h" />
     <ClInclude Include="include\minic\rand.h" />
+    <ClInclude Include="include\minic\string.h" />
     <ClInclude Include="include\minic\timer.h" />
     <ClInclude Include="src\minic\win32_timer.c" />
     <ClInclude Include="third_party\include\win32\atomic.h" />
