@@ -79,7 +79,7 @@ const u64 U64_MAX_VALUE = (0xffffffffull << 32) + 0xffffffffull;
 
 #if defined(__ppc64__) || defined(__aarch64__) || defined(_M_X64) ||           \
     defined(__x86_64__) || defined(__x86_64)
-typedef u64 ptr_t;
+typedef uintptr_t ptr_t;
 typedef u64 size_t;
 #else
 typedef u32 ptr_t;
