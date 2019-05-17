@@ -23,7 +23,7 @@ string_length(const char *str)
 
                 ++str;
                 ++n;
-            } while ((unaligned = cast(ptr_t, str) & 3))
+            } while ((unaligned = cast(ptr_t, str) & 3));
         }
         else
         {
