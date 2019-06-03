@@ -2,7 +2,7 @@
 #include "minic/assert.h"
 
 inline void *
-allocator_alloc(Allocator *allocator, size_t size)
+allocator_alloc(Allocator *allocator, usize size)
 {
     assert(allocator != NULL);
     assert(allocator->alloc != NULL);
@@ -12,7 +12,7 @@ allocator_alloc(Allocator *allocator, size_t size)
 }
 
 inline void *
-allocator_realloc(Allocator *allocator, void *block, size_t size)
+allocator_realloc(Allocator *allocator, void *block, usize size)
 {
     assert(allocator != NULL);
     assert(allocator->alloc != NULL);

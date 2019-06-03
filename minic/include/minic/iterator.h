@@ -5,7 +5,7 @@
 
 typedef struct
 {
-    u32 element_size;
+    usize element_size;
     void *data;
 } Iterator;
 
@@ -13,7 +13,7 @@ void *
 iterator_get(Iterator *iterator);
 
 void
-iterator_advance(Iterator *iterator, s32 offset);
+iterator_advance(Iterator *iterator, usize offset);
 
 void *
 iterator_next(Iterator *iterator);

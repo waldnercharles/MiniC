@@ -1,6 +1,13 @@
 #ifndef INT_H
 #define INT_H
 
+#if defined(__ppc64__) || defined(__aarch64__) || defined(_M_X64) ||           \
+    defined(__x86_64__) || defined(__x86_64) || defined(_WIN64)
+#define MINIC64
+#else
+#define MINIC32
+#endif
+
 #ifndef __has_attribute
 #define __has_attribute(A) 0
 #endif
@@ -22,33 +29,24 @@
 #define va_copy(destination, source) ((destination) = (source))
 
 /* clang-format off */
-#if defined(_MSC_VER)
 /* 1300 == VC 6.0 */
-#if _MSC_VER < 1300
-typedef signed char         s8;
-typedef unsigned char       u8;
-typedef signed short        s16;
-typedef unsigned short      u16;
-typedef signed int          s32;
-typedef unsigned int        u32;
-#else
+#if defined(_MSC_VER) && _MSC_VER >= 1300
 typedef signed __int8       s8;
 typedef unsigned __int8     u8;
 typedef signed __int16      s16;
 typedef unsigned __int16    u16;
 typedef signed __int32      s32;
 typedef unsigned __int32    u32;
-#endif
 typedef signed __int64      s64;
 typedef unsigned __int64    u64;
 #else
 typedef signed char         s8;
-typedef short               u8;
-typedef int                 s16;
-typedef long long           u16;
-typedef unsigned char       s32;
-typedef unsigned short      u32;
-typedef unsigned int        s64;
+typedef unsigned char       u8;
+typedef signed short        s16;
+typedef unsigned short      u16;
+typedef signed int          s32;
+typedef unsigned int        u32;
+typedef signed long long    s64;
 typedef unsigned long long  u64;
 #endif
 
@@ -56,6 +54,8 @@ typedef float               r32;
 typedef double              r64;
 
 typedef enum { false, true } bool;
+#define true 1
+#define false 0
 
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
@@ -74,16 +74,34 @@ typedef enum { false, true } bool;
 #define S64_MAX +0X7FFFFFFFFFFFFFFF
 #define U64_MAX +0XFFFFFFFFFFFFFFFF
 
-const u64 U32_MAX_VALUE = 0xffffffff;
-const u64 U64_MAX_VALUE = (0xffffffffull << 32) + 0xffffffffull;
-
-#if defined(__ppc64__) || defined(__aarch64__) || defined(_M_X64) ||           \
-    defined(__x86_64__) || defined(__x86_64)
-typedef uintptr_t ptr_t;
-typedef u64 size_t;
+#if defined(MINIC64)
+typedef s64 sptr;
+typedef u64 uptr;
+typedef s64 ssize;
+typedef u64 usize;
 #else
-typedef u32 ptr_t;
-typedef u32 size_t;
+typedef s32 sptr;
+typedef u32 uptr;
+typedef s32 ssize;
+typedef u32 usize;
 #endif
+
+typedef union
+{
+    char *str;
+
+    s8 *s8;
+    u8 *u8;
+
+    s16 *s16;
+    u16 *u16;
+
+    s32 *s32;
+    u32 *u32;
+
+    s64 *s64;
+    u64 *u64;
+
+} RawBuffer;
 
 #endif

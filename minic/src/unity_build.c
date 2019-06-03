@@ -12,6 +12,7 @@
 
 #include "minic/win32_allocator_default.c"
 #include "minic/win32_assert.c"
+#include "minic/win32_file.c"
 #include "minic/win32_io.c"
 #include "minic/win32_timer.c"
 

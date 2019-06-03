@@ -3,7 +3,7 @@
 #include "minic/memory.h"
 
 void *
-mem_copy(void *dst, const void *src, u64 length)
+mem_copy(void *dst, const void *src, usize length)
 {
     assert(dst != NULL);
     assert(src != NULL);
@@ -19,7 +19,7 @@ mem_copy(void *dst, const void *src, u64 length)
 }
 
 void *
-mem_move(void *dst, const void *src, u64 length)
+mem_move(void *dst, const void *src, usize length)
 {
     assert(dst != NULL);
     assert(src != NULL);
@@ -51,7 +51,7 @@ mem_move(void *dst, const void *src, u64 length)
 }
 
 void *
-mem_set(void *dst, u32 value, u64 length)
+mem_set(void *dst, u8 value, usize length)
 {
     assert(dst != NULL);
 
@@ -65,7 +65,7 @@ mem_set(void *dst, u32 value, u64 length)
 }
 
 s32
-mem_compare(const void *lhs, const void *rhs, u64 length)
+mem_compare(const void *lhs, const void *rhs, usize length)
 {
     assert(lhs != NULL);
     assert(rhs != NULL);

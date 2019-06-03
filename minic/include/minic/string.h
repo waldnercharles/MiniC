@@ -3,7 +3,10 @@
 
 #include "minic/int.h"
 
-u32
-string_length(const char *str);
+usize
+string_length(char *str);
+
+usize
+string_copy(char *dst, char *src, usize max);
 
 #endif

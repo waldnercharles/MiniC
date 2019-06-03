@@ -9,11 +9,11 @@ struct timer
     LARGE_INTEGER frequency;
 };
 
-static s64
-_u64_muldiv(s64 value, s64 numer, s64 denom)
+static u64
+_u64_muldiv(u64 value, u64 numer, u64 denom)
 {
-    s64 q = value / denom;
-    s64 r = value % denom;
+    u64 q = value / denom;
+    u64 r = value % denom;
     return q * numer + r * numer / denom;
 }
 
@@ -27,14 +27,15 @@ timer_init(struct timer *timer)
 u64
 timer_now(struct timer *timer)
 {
-    s64 curr, prev, freq;
+    u64 curr, prev, freq;
     LARGE_INTEGER qpc;
 
     QueryPerformanceCounter(&qpc);
 
-    curr = qpc.QuadPart;
-    prev = timer->start.QuadPart;
-    freq = timer->frequency.QuadPart;
+    curr = cast(u64, qpc.QuadPart);
+    prev = cast(u64, timer->start.QuadPart);
+    freq = cast(u64, timer->frequency.QuadPart);
 
-    return _u64_muldiv((curr - prev), 1000000000, freq);
+    assert(curr >= prev);
+    return _u64_muldiv(curr - prev, 1000000000ull, freq);
 }

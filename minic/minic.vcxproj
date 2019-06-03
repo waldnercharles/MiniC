@@ -41,10 +41,12 @@
     <ClInclude Include="include\minic\allocator_default.h" />
     <ClInclude Include="include\minic\array.h" />
     <ClInclude Include="include\minic\assert.h" />
+    <ClInclude Include="include\minic\file.h" />
     <ClInclude Include="include\minic\fp.h" />
     <ClInclude Include="include\minic\int.h" />
     <ClInclude Include="include\minic\io.h" />
     <ClInclude Include="include\minic\iterator.h" />
+    <ClInclude Include="include\minic\log.h" />
     <ClInclude Include="include\minic\math.h" />
     <ClInclude Include="include\minic\memory.h" />
     <ClInclude Include="include\minic\rand.h" />

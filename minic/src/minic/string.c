@@ -2,60 +2,61 @@
 #include "minic/int.h"
 #include "minic/assert.h"
 
-u32
-string_length(const char *str)
+usize
+string_length(char *str)
 {
     assert(str != NULL);
 
-    u32 n = 0;
-    bool unaligned = cast(ptr_t, str) & 3;
+    RawBuffer buf = { .str = str };
+
+    usize n = 0;
+    bool unaligned = cast(uptr, str) & 3;
     for (;;)
     {
-        u32 word = *cast(u32 *, str);
+        u32 word = *buf.u32;
         u32 has_null = (word - 0x01010101) & ((~word) & 0x80808080);
 
         if (unaligned || has_null)
         {
             do
             {
-                if (*str == 0)
+                if (*buf.str == 0)
                 {
                     return n;
                 }
 
-                ++str;
+                ++buf.str;
                 ++n;
-            } while (cast(ptr_t, str) & 3);
+            } while (cast(uptr, buf.str) & 3);
 
             unaligned = false;
         }
         else
         {
-            str += 4;
+            buf.str += 4;
             n += 4;
         }
     }
 }
 
-u32
-string_copy(char *dst, const char *src, u32 max)
+usize
+string_copy(char *dst, char *src, usize max)
 {
     assert(dst != NULL);
     assert(src != NULL);
 
     // TODO: Implement fast copy for aligned strings
 
+    s8 c = 0;
     u32 n = 0;
-    for (;;)
+    do
     {
         assert(n < max);
 
-        if (*src == 0)
-        {
-            return n;
-        }
-
-        *dst++ = *src++;
+        c = *src++;
+        *dst++ = c;
         ++n;
-    }
+    } while (c);
+
+    return n;
 }
