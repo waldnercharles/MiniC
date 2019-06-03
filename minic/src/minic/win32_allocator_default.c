@@ -4,8 +4,8 @@
 #include "minic/assert.h"
 #include "minic/int.h"
 
-void *
-allocator_default_alloc(void *internal_allocator, size_t size)
+static void *
+allocator_default_alloc(void *internal_allocator, usize size)
 {
     assert(internal_allocator != NULL);
     assert(size > 0);
@@ -13,7 +13,7 @@ allocator_default_alloc(void *internal_allocator, size_t size)
     return HeapAlloc(internal_allocator, HEAP_ZERO_MEMORY, size);
 }
 
-void
+static void
 allocator_default_free(void *internal_allocator, void *block)
 {
     assert(internal_allocator != NULL);
@@ -22,8 +22,8 @@ allocator_default_free(void *internal_allocator, void *block)
     HeapFree(internal_allocator, 0, block);
 }
 
-void *
-allocator_default_realloc(void *internal_allocator, void *block, size_t size)
+static void *
+allocator_default_realloc(void *internal_allocator, void *block, usize size)
 {
     assert(internal_allocator != NULL);
     assert(block != NULL);

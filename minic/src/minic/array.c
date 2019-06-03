@@ -4,12 +4,12 @@
 #include "minic/memory.h"
 
 overload void
-array_init(Array *arr, Allocator *allocator, u32 element_size, u32 capacity)
+array_init(Array *arr, Allocator *allocator, usize element_size, usize capacity)
 {
     assert(arr != NULL);
 
     arr->allocator = allocator;
-    arr->size = 0;
+    arr->length = 0;
     arr->capacity = 0;
     arr->element_size = element_size;
     arr->data = NULL;
@@ -18,7 +18,7 @@ array_init(Array *arr, Allocator *allocator, u32 element_size, u32 capacity)
 }
 
 overload void
-array_init(Array *arr, Allocator *allocator, u32 element_size)
+array_init(Array *arr, Allocator *allocator, usize element_size)
 {
     array_init(arr, allocator, element_size, ARRAY_DEFAULT_CAPACITY);
 }
@@ -44,8 +44,8 @@ array_copy(Array *dst, Array *src)
         array_free(dst);
     }
 
-    array_init(dst, src->allocator, src->capacity, src->element_size);
-    mem_copy(dst->data, src->data, src->size * src->element_size);
+    array_init(dst, src->allocator, src->element_size, src->capacity);
+    mem_copy(dst->data, src->data, src->length * src->element_size);
 }
 
 void
@@ -65,7 +65,7 @@ array_move(Array *dst, Array *src)
 }
 
 bool
-array_reserve(Array *arr, u32 capacity)
+array_reserve(Array *arr, usize capacity)
 {
     assert(arr != NULL);
 
@@ -88,7 +88,7 @@ array_reserve(Array *arr, u32 capacity)
 }
 
 bool
-array_reserve_pow2(Array *arr, u32 capacity)
+array_reserve_pow2(Array *arr, usize capacity)
 {
     return array_reserve(arr, next_pow2(capacity));
 }
@@ -98,13 +98,13 @@ array_push_back(Array *arr, void *value)
 {
     assert(arr != NULL);
 
-    if (arr->size == arr->capacity)
+    if (arr->length == arr->capacity)
         array_reserve_pow2(arr, arr->capacity + 1);
 
-    void *offset = _array_offset(arr, arr->size);
+    void *offset = _array_offset(arr, arr->length);
     mem_copy(offset, value, arr->element_size);
 
-    arr->size++;
+    arr->length++;
 }
 
 void
@@ -114,30 +114,30 @@ array_push_front(Array *arr, void *value)
 }
 
 void
-array_insert(Array *arr, u32 index, void *value)
+array_insert(Array *arr, usize index, void *value)
 {
     assert(arr != NULL);
-    assert(index <= arr->size);
+    assert(index <= arr->length);
 
-    if (arr->size == arr->capacity)
+    if (arr->length == arr->capacity)
         array_reserve_pow2(arr, arr->capacity + 1);
 
-    void *offset = _array_offset(arr, index);
+    u8 *offset = _array_offset(arr, index);
     mem_move(offset + arr->element_size,
              offset,
-             arr->element_size * (arr->size - index));
+             arr->element_size * (arr->length - index));
 
     mem_copy(offset, value, arr->element_size);
-    arr->size++;
+    arr->length++;
 }
 
 void
-array_set(Array *arr, u32 index, void *value)
+array_set(Array *arr, usize index, void *value)
 {
     assert(arr != NULL);
-    assert(index < arr->size);
+    assert(index < arr->length);
 
-    void *offset = _array_offset(arr, index);
+    u8 *offset = _array_offset(arr, index);
     mem_copy(offset, value, arr->element_size);
 }
 
@@ -145,29 +145,29 @@ void
 array_pop_back(Array *arr)
 {
     assert(arr != NULL);
-    assert(arr->size > 0);
+    assert(arr->length > 0);
 
-    arr->size--;
+    arr->length--;
 }
 
 void
 array_pop_front(Array *arr)
 {
-    return array_remove(arr, 0u);
+    array_remove(arr, cast(usize, 0));
 }
 
 overload void
-array_remove(Array *arr, u32 index)
+array_remove(Array *arr, usize index)
 {
     assert(arr != NULL);
-    assert(index < arr->size);
+    assert(index < arr->length);
 
-    void *offset = _array_offset(arr, index);
+    u8 *offset = _array_offset(arr, index);
     mem_move(offset,
              offset + arr->element_size,
-             arr->element_size * (arr->size - index - 1));
+             arr->element_size * (arr->length - index - 1));
 
-    arr->size--;
+    arr->length--;
 }
 
 overload void
@@ -177,7 +177,7 @@ array_remove(Array *arr, Iterator *iterator)
     assert(iterator != NULL);
     assert(arr->element_size == iterator->element_size);
 
-    u32 index = array_iterator_index(arr, iterator);
+    usize index = array_iterator_index(arr, iterator);
     array_remove(arr, index);
 
     *iterator = array_iterator(arr, index);
@@ -186,14 +186,14 @@ array_remove(Array *arr, Iterator *iterator)
 void
 array_clear(Array *arr)
 {
-    arr->size = 0;
+    arr->length = 0;
 }
 
 void *
-array_get(Array *arr, u32 index)
+array_get(Array *arr, usize index)
 {
     assert(arr != NULL);
-    assert(index < arr->size);
+    assert(index < arr->length);
     return _array_offset(arr, index);
 }
 
@@ -206,7 +206,7 @@ array_front(Array *arr)
 void *
 array_back(Array *arr)
 {
-    return array_get(arr, arr->size - 1);
+    return array_get(arr, arr->length - 1);
 }
 
 Iterator
@@ -218,14 +218,14 @@ array_begin(Array *arr)
 Iterator
 array_end(Array *arr)
 {
-    return array_iterator(arr, arr->size);
+    return array_iterator(arr, arr->length);
 }
 
 Iterator
-array_iterator(Array *arr, u32 index)
+array_iterator(Array *arr, usize index)
 {
     assert(arr != NULL);
-    assert(index <= arr->size);
+    assert(index <= arr->length);
 
     Iterator iterator;
     iterator.data = _array_offset(arr, index);
@@ -234,7 +234,7 @@ array_iterator(Array *arr, u32 index)
     return iterator;
 }
 
-u32
+usize
 array_iterator_index(Array *arr, Iterator *iterator)
 {
     assert(arr != NULL);
@@ -246,14 +246,15 @@ array_iterator_index(Array *arr, Iterator *iterator)
     assert(arr->element_size == iterator->element_size);
     assert(arr->element_size > 0);
 
-    return (iterator->data - arr->data) / arr->element_size;
+    return cast(usize, (cast(u8 *, iterator->data) - cast(u8 *, arr->data))) /
+           arr->element_size;
 }
 
 void *
-_array_offset(Array *arr, u32 index)
+_array_offset(Array *arr, usize index)
 {
     assert(arr != NULL);
     assert(arr->data != NULL);
     assert(arr->element_size > 0);
-    return arr->data + (index * arr->element_size);
+    return cast(u8 *, arr->data) + (index * arr->element_size);
 }

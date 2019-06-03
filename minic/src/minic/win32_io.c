@@ -1,18 +1,27 @@
 #include "minic/io.h"
+#include "minic/assert.h"
 
 #include <win32/io.h>
 #include <win32/file.h>
 
 void *
-io_std_output_handle()
+io_output_handle()
 {
     return GetStdHandle(STD_OUTPUT_HANDLE);
 }
 
-char *
-io_write_tmp(char *buf, void *udata, u32 len)
+void *
+io_error_handle()
 {
+    return GetStdHandle(STD_ERROR_HANDLE);
+}
+
+char *
+io_write_tmp(char *buf, void *udata, usize len)
+{
+    assert(len == cast(DWORD, len));
+
     DWORD bytes_written;
-    WriteFile(udata, buf, len, &bytes_written, NULL);
+    WriteFile(udata, buf, cast(DWORD, len), &bytes_written, NULL);
     return buf;
 }

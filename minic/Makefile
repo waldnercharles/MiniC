@@ -18,7 +18,15 @@ SYSTEM_INCLUDES = \
 INCLUDES = -Isrc -Iinclude -imsvcthird_party\include
 IGNORED_WARNINGS = -wd4201 -wd4189 -D_CRT_SECURE_NO_WARNINGS
 
-CFLAGS = -analyze- -nologo -Od -Oi -GR- -GS- -EHa- -Zi -Zo -Zc:inline -fp:fast -fp:except- -W4 -Werror $(INCLUDES) $(IGNORED_WARNINGS)
+CFLAGS = \
+	-analyze- \
+	-nologo \
+	-Od -Oi -GR- -GS- -EHa- -Zi -Zo -Zc:inline -fp:fast -fp:except- \
+	-Wall -Wextra -Wpedantic -Weverything -Werror \
+	-Wno-language-extension-token -Wno-gnu-zero-variadic-macro-arguments \
+	-ferror-limit=256 \
+	$(INCLUDES) $(IGNORED_WARNINGS)
+
 LFLAGS = \
 	-machine:x64 \
 	-nodefaultlib \

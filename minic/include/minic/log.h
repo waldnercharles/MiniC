@@ -1,61 +1,43 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include <string.h>
+#include "minic/io.h"
 
 #define log_level_none 0
 #define log_level_error 1
 #define log_level_warning 2
-#define log_level_debug 3
-
-#define log_error_tag "ERROR"
-#define log_warning_tag "WARN"
-#define log_debug_tag "DEBUG"
+#define log_level_info 3
+#define log_level_debug 4
 
 #ifndef log_level
 #define log_level log_level_debug
 #endif
 
-#define log_newline "\n"
-#define log_format "[%s] (%s:%s:%d) "
-#define log_args(tag) tag, __FILE__, __FUNCTION__, __LINE__
+#define log(message, tag, ...)                                                 \
+    io_printf("[%s] (%s:%d): " message "\n",                                   \
+              (tag),                                                           \
+              __FILE__,                                                        \
+              __LINE__,                                                        \
+              ##__VA_ARGS__)
 
-#include <stdio.h>
-putchar()
+#define log_error(message, ...) log(message, "ERROR", ##__VA_ARGS__)
+#define log_warning(message, ...) log(message, "WARNING", ##__VA_ARGS__)
+#define log_info(message, ...) log(message, "INFO", ##__VA_ARGS__)
+#define log_debug(message, ...) log(message, "DEBUG", ##__VA_ARGS__)
 
-#if log_level >= log_level_error
-#define log_error(message, ...)                                                \
-    do                                                                         \
-    {                                                                          \
-        fprintf(stderr,                                                        \
-                log_format message log_newline,                                \
-                log_args(log_error_tag),                                       \
-                ##__VA_ARGS__);                                                \
-        fprintf(stdout, "Press any key to continue...");                       \
-        getchar();                                                             \
-        exit(EXIT_FAILURE);                                                    \
-    } while (0)
-#else
-#define log_error(message, ....)
+#if log_level < log_level_error
+#define log_error(message, ...)
 #endif
 
-#if log_level >= log_level_warning
-#define log_warning(message, ...)                                              \
-    fprintf(stdout,                                                            \
-            log_format message log_newline,                                    \
-            log_args(log_warning_tag),                                         \
-            ##__VA_ARGS__)
-#else
+#if log_level < log_level_warning
 #define log_warning(message, ...)
 #endif
 
-#if log_level >= log_level_debug
-#define log_debug(message, ...)                                                \
-    fprintf(stdout,                                                            \
-            log_format message log_newline,                                    \
-            log_args(log_debug_tag),                                           \
-            ##__VA_ARGS__)
-#else
+#if log_level < log_level_info
+#define log_info(message, ...)
+#endif
+
+#if log_level < log_level_debug
 #define log_debug(message, ...)
 #endif
 

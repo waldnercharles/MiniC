@@ -3,9 +3,13 @@
 
 #include "minic/int.h"
 
-void rand_seed(u64 value);
+void
+rand_seed(u64 value);
 
-u64 rand_generate();
-r64 rand_generate_r64();
+u64
+rand_generate(void);
+
+r64
+rand_generate_r64(void);
 
 #endif

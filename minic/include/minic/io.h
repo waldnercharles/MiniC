@@ -3,14 +3,28 @@
 
 #include "minic/int.h"
 
-void *io_std_output_handle();
+void *
+io_output_handle(void);
 
-char *io_write_tmp(char *buf, void *udata, u32 len);
+void *
+io_error_handle(void);
 
-s32 __vsnprintf(char *buf, u32 capacity, const char *fmt, va_list va);
-s32 __vsprintf(char *buf, const char *fmt, va_list va);
-s32 __snprintf(char *buf, u32 capacity, const char *fmt, ...);
-s32 __sprintf(char *buf, const char *fmt, ...);
-s32 __printf(const char *fmt, ...);
+usize
+io_vsnprintf(char *buf, usize capacity, char *fmt, va_list va);
+
+usize
+io_vsprintf(char *buf, char *fmt, va_list va);
+
+usize
+io_snprintf(char *buf, usize capacity, char *fmt, ...);
+
+usize
+io_sprintf(char *buf, char *fmt, ...);
+
+usize
+io_printf(char *fmt, ...);
+
+usize
+io_printf_handle(char *fmt, void *handle, ...);
 
 #endif

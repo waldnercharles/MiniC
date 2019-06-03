@@ -1,3 +1,4 @@
+#include "minic/rand.h"
 #include "minic/int.h"
 
 // Mersenne Twister
@@ -9,7 +10,7 @@
     (((buf)[i] & 0x80000000) | ((buf)[j] & 0x7fffffff))
 #define RAND_MT_MAGIC(x) (((x)&1) * 0x9908b0df)
 
-struct
+static struct
 {
     u64 buffer[RAND_MT_LENGTH];
     u64 index;
@@ -38,7 +39,13 @@ rand_seed(u64 value)
 u64
 rand_generate()
 {
-    u64 *buf = rand_state.buffer;
+    union
+    {
+        u8 *u8;
+        u64 *u64;
+    } buf;
+
+    buf.u64 = rand_state.buffer;
     u32 idx = cast(u32, rand_state.index);
 
     u64 tmp;
@@ -55,29 +62,31 @@ rand_generate()
         u32 i = 0;
         for (; i < RAND_MT_DIFF; i++)
         {
-            tmp = RAND_MT_TWIST(buf, i, i + 1);
+            tmp = RAND_MT_TWIST(buf.u64, i, i + 1);
             tmp = (tmp >> 1) ^ RAND_MT_MAGIC(tmp);
 
-            buf[i] = buf[i + RAND_MT_PERIOD] ^ tmp;
+            buf.u64[i] = buf.u64[i + RAND_MT_PERIOD] ^ tmp;
         }
 
         for (; i < (RAND_MT_LENGTH - 1); i++)
         {
-            tmp = RAND_MT_TWIST(buf, i, i + 1);
+            tmp = RAND_MT_TWIST(buf.u64, i, i + 1);
             tmp = (tmp >> 1) ^ RAND_MT_MAGIC(tmp);
 
-            buf[i] = buf[i - RAND_MT_DIFF] ^ tmp;
+            buf.u64[i] = buf.u64[i - RAND_MT_DIFF] ^ tmp;
         }
 
-        tmp = RAND_MT_TWIST(buf, RAND_MT_LENGTH - 1, 0);
+        tmp = RAND_MT_TWIST(buf.u64, RAND_MT_LENGTH - 1, 0);
         tmp = (tmp >> 1) ^ RAND_MT_MAGIC(tmp);
 
-        buf[RAND_MT_LENGTH - 1] = buf[RAND_MT_PERIOD - 1] ^ tmp;
+        buf.u64[RAND_MT_LENGTH - 1] = buf.u64[RAND_MT_PERIOD - 1] ^ tmp;
     }
 
     rand_state.index = idx + sizeof(u64);
 
-    tmp = *cast(u64 *, cast(u8 *, buf) + idx);
+    buf.u8 += idx;
+
+    tmp = *buf.u64;
     tmp ^= (tmp >> 11);
     tmp ^= (tmp << 7) & 0x9d2c5680;
     tmp ^= (tmp << 15) & 0xEFC60000;
