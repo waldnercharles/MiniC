@@ -8,8 +8,10 @@
 
 #define RAND_MT_TWIST(buf, i, j)                                               \
     (((buf)[i] & 0x80000000) | ((buf)[j] & 0x7fffffff))
+
 #define RAND_MT_MAGIC(x) (((x)&1) * 0x9908b0df)
 
+// TODO: Move into non-static struct
 static struct
 {
     u64 buffer[RAND_MT_LENGTH];
@@ -39,11 +41,7 @@ rand_seed(u64 value)
 u64
 rand_generate()
 {
-    union
-    {
-        u8 *u8;
-        u64 *u64;
-    } buf;
+    RawBuffer buf;
 
     buf.u64 = rand_state.buffer;
     u32 idx = cast(u32, rand_state.index);
@@ -93,10 +91,4 @@ rand_generate()
     tmp ^= (tmp >> 18);
 
     return tmp;
-}
-
-r64
-rand_generate_r64()
-{
-    return rand_generate() / (cast(r64, 1 << 16) * (1 << 16));
 }
