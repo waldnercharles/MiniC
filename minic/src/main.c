@@ -1,19 +1,18 @@
 #include "minic/int.h"
 #include "minic/io.h"
-#include "minic/file.h"
-//#include "minic/log.h"
-//#include "minic/rand.h"
-//#include "minic/string.h"
-//#include "minic/timer.h"
+#include "minic/rand.h"
 
 s32
 main()
 {
-    Directory dir;
-    File file;
+    Random rand;
+    u64 seed = 0x1726443095127773;
+    rand_seed(&rand, seed);
 
-    directory_open(&dir, "..");
-    directory_read_file(&dir, &file);
+    for (s32 i = 0; i < 10; i++)
+    {
+        io_printf("Hello World! %llu\n", rand_next_u64(&rand));
+    }
 
     return 0;
 }
