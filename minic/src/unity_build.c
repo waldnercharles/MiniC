@@ -1,8 +1,12 @@
 #define DEBUG
 
 #include "minic/allocator.c"
+
+#include "minic/iterator.c"
 #include "minic/array.c"
+
 #include "minic/fp.c"
+#include "minic/hashtable.c"
 #include "minic/io.c"
 #include "minic/math.c"
 #include "minic/memory.c"
