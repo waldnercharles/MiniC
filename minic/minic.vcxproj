@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\minic\allocator.c" />
+    <ClCompile Include="src\minic\assets.c" />
+    <ClCompile Include="src\minic\hashtable.c" />
     <ClCompile Include="src\minic\iterator.c" />
     <ClCompile Include="src\minic\string.c" />
     <ClCompile Include="src\minic\win32_allocator_default.c" />
@@ -43,6 +45,7 @@
     <ClInclude Include="include\minic\assert.h" />
     <ClInclude Include="include\minic\file.h" />
     <ClInclude Include="include\minic\fp.h" />
+    <ClInclude Include="include\minic\hashtable.h" />
     <ClInclude Include="include\minic\int.h" />
     <ClInclude Include="include\minic\io.h" />
     <ClInclude Include="include\minic\iterator.h" />

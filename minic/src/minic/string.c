@@ -5,14 +5,14 @@
 usize
 string_length(char *str)
 {
-    assert(str != NULL);
-
     RawBuffer buf = { .str = str };
 
     usize n = 0;
     bool unaligned = cast(uptr, str) & 3;
     for (;;)
     {
+        assert(buf.u32 != NULL);
+
         u32 word = *buf.u32;
         u32 has_null = (word - 0x01010101) & ((~word) & 0x80808080);
 
@@ -20,6 +20,7 @@ string_length(char *str)
         {
             do
             {
+                assert(buf.str != NULL);
                 if (*buf.str == 0)
                 {
                     return n;
