@@ -1,6 +1,31 @@
 #include "minic/allocator.h"
 #include "minic/assert.h"
 
+struct Allocator
+{
+    allocator_alloc_f *alloc;
+    allocator_realloc_f *realloc;
+    allocator_free_f *free;
+
+    void *internal_allocator;
+};
+
+void
+allocator_init(Allocator *allocator,
+               void *internal_allocator,
+               allocator_alloc_f *alloc,
+               allocator_realloc_f *realloc,
+               allocator_free_f *free)
+{
+    assert(allocator != NULL);
+
+    allocator->alloc = alloc;
+    allocator->realloc = realloc;
+    allocator->free = free;
+
+    allocator->internal_allocator = internal_allocator;
+}
+
 inline void *
 allocator_alloc(Allocator *allocator, usize size)
 {

@@ -5,7 +5,7 @@
 #include "minic/int.h"
 
 static void *
-allocator_default_alloc(void *internal_allocator, usize size)
+allocator_alloc_default(void *internal_allocator, usize size)
 {
     assert(internal_allocator != NULL);
     assert(size > 0);
@@ -14,7 +14,7 @@ allocator_default_alloc(void *internal_allocator, usize size)
 }
 
 static void
-allocator_default_free(void *internal_allocator, void *block)
+allocator_free_default(void *internal_allocator, void *block)
 {
     assert(internal_allocator != NULL);
     assert(block != NULL);
@@ -23,7 +23,7 @@ allocator_default_free(void *internal_allocator, void *block)
 }
 
 static void *
-allocator_default_realloc(void *internal_allocator, void *block, usize size)
+allocator_realloc_default(void *internal_allocator, void *block, usize size)
 {
     assert(internal_allocator != NULL);
     assert(block != NULL);
@@ -33,14 +33,17 @@ allocator_default_realloc(void *internal_allocator, void *block, usize size)
 }
 
 void
-allocator_default_init(Allocator *allocator)
+allocator_init_default(Allocator *allocator)
 {
     assert(allocator != NULL);
 
-    allocator->alloc = allocator_default_alloc;
-    allocator->realloc = allocator_default_realloc;
-    allocator->free = allocator_default_free;
-    allocator->internal_allocator = GetProcessHeap();
+    void *internal_allocator = GetProcessHeap();
 
-    assert(allocator->internal_allocator != NULL);
+    assert(internal_allocator != NULL);
+
+    allocator_init(allocator,
+                   internal_allocator,
+                   allocator_alloc_default,
+                   allocator_realloc_default,
+                   allocator_free_default);
 }
