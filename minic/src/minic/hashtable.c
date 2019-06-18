@@ -197,7 +197,6 @@ hashtable_init(Hashtable *table,
 
     table->items.value =
         cast(void *, table->items.slot_index + table->items.capacity);
-    // TODO: Swap
 }
 
 void
@@ -213,7 +212,6 @@ void
 hashtable_add(Hashtable *table, u64 key, void *value)
 {
     assert(table != NULL);
-    // assert((hashtable_find_slot_index(table, key) == -1));
 
     u32 expand_threshold = table->slots_capacity - (table->slots_capacity / 3u);
     if (table->items.count >= expand_threshold)
@@ -267,12 +265,12 @@ hashtable_add(Hashtable *table, u64 key, void *value)
     table->slots[slot_index].item_index = table->items.count;
     ++(table->slots[hash_index].count);
 
-    void *dest_value =
+    void *dst_value =
         cast(void *,
              cast(u8 *, table->items.value) +
                  (table->items.count * table->items.element_size));
 
-    mem_copy(dest_value, value, table->items.element_size);
+    mem_copy(dst_value, value, table->items.element_size);
     table->items.key[table->items.count] = key;
     table->items.slot_index[table->items.count] = slot_index;
     ++(table->items.count);
@@ -355,11 +353,11 @@ hashtable_set(Hashtable *table, u64 key, void *value)
     {
         u32 item_index = table->slots[slot_index].item_index;
 
-        void *dest_value = cast(void *,
-                                cast(u8 *, table->items.value) +
-                                    (item_index * table->items.element_size));
+        void *dst_value = cast(void *,
+                               cast(u8 *, table->items.value) +
+                                   (item_index * table->items.element_size));
 
-        mem_copy(dest_value, value, table->items.element_size);
+        mem_copy(dst_value, value, table->items.element_size);
     }
     else
     {
