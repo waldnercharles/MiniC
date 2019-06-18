@@ -3,10 +3,33 @@
 #include "minic/math.h"
 #include "minic/memory.h"
 
+struct Array
+{
+    Allocator *allocator;
+
+    usize length;
+    usize capacity;
+    usize element_size;
+    void *data;
+};
+
+static void *
+array_at(Array *arr, usize index)
+{
+    assert(arr != NULL);
+    assert(arr->data != NULL);
+    assert(arr->element_size > 0);
+
+    return cast(u8 *, arr->data) + (index * arr->element_size);
+}
+
 overload void
 array_init(Array *arr, Allocator *allocator, usize element_size, usize capacity)
 {
     assert(arr != NULL);
+    assert(allocator != NULL);
+    assert(element_size != 0);
+    assert(capacity != 0);
 
     arr->allocator = allocator;
     arr->length = 0;
@@ -68,12 +91,15 @@ bool
 array_reserve(Array *arr, usize capacity)
 {
     assert(arr != NULL);
+    assert(capacity != 0);
 
     if (capacity > arr->capacity)
     {
         void *new_data = allocator_realloc(arr->allocator,
                                            arr->data,
                                            capacity * arr->element_size);
+
+        assert(new_data != NULL);
 
         if (new_data == NULL)
         {
@@ -101,7 +127,7 @@ array_push_back(Array *arr, void *value)
     if (arr->length == arr->capacity)
         array_reserve_pow2(arr, arr->capacity + 1);
 
-    void *offset = _array_offset(arr, arr->length);
+    void *offset = array_at(arr, arr->length);
     mem_copy(offset, value, arr->element_size);
 
     arr->length++;
@@ -122,7 +148,7 @@ array_insert(Array *arr, usize index, void *value)
     if (arr->length == arr->capacity)
         array_reserve_pow2(arr, arr->capacity + 1);
 
-    u8 *offset = _array_offset(arr, index);
+    u8 *offset = array_at(arr, index);
     mem_move(offset + arr->element_size,
              offset,
              arr->element_size * (arr->length - index));
@@ -137,7 +163,7 @@ array_set(Array *arr, usize index, void *value)
     assert(arr != NULL);
     assert(index < arr->length);
 
-    u8 *offset = _array_offset(arr, index);
+    u8 *offset = array_at(arr, index);
     mem_copy(offset, value, arr->element_size);
 }
 
@@ -162,7 +188,7 @@ array_remove(Array *arr, usize index)
     assert(arr != NULL);
     assert(index < arr->length);
 
-    u8 *offset = _array_offset(arr, index);
+    u8 *offset = array_at(arr, index);
     mem_move(offset,
              offset + arr->element_size,
              arr->element_size * (arr->length - index - 1));
@@ -175,7 +201,6 @@ array_remove(Array *arr, Iterator *iterator)
 {
     assert(arr != NULL);
     assert(iterator != NULL);
-    assert(arr->element_size == iterator->element_size);
 
     usize index = array_iterator_index(arr, iterator);
     array_remove(arr, index);
@@ -194,7 +219,7 @@ array_get(Array *arr, usize index)
 {
     assert(arr != NULL);
     assert(index < arr->length);
-    return _array_offset(arr, index);
+    return array_at(arr, index);
 }
 
 void *
@@ -228,8 +253,7 @@ array_iterator(Array *arr, usize index)
     assert(index <= arr->length);
 
     Iterator iterator;
-    iterator.data = _array_offset(arr, index);
-    iterator.element_size = arr->element_size;
+    iterator_init(&iterator, array_at(arr, index), arr->element_size);
 
     return iterator;
 }
@@ -239,22 +263,14 @@ array_iterator_index(Array *arr, Iterator *iterator)
 {
     assert(arr != NULL);
     assert(iterator != NULL);
-    assert(iterator->data != NULL);
-    assert(arr->data != NULL);
-
-    assert(iterator->data >= arr->data);
-    assert(arr->element_size == iterator->element_size);
     assert(arr->element_size > 0);
 
-    return cast(usize, (cast(u8 *, iterator->data) - cast(u8 *, arr->data))) /
-           arr->element_size;
-}
+    u8 *current = iterator_current(iterator);
+    u8 *start = arr->data;
 
-void *
-_array_offset(Array *arr, usize index)
-{
-    assert(arr != NULL);
-    assert(arr->data != NULL);
-    assert(arr->element_size > 0);
-    return cast(u8 *, arr->data) + (index * arr->element_size);
+    assert(current != NULL);
+    assert(start != NULL);
+    assert(current >= start);
+
+    return cast(usize, (current - start)) / arr->element_size;
 }

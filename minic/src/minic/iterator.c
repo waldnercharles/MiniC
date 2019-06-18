@@ -1,52 +1,71 @@
 #include "minic/assert.h"
 #include "minic/iterator.h"
 
-void *
-iterator_get(Iterator *iterator)
+struct Iterator
 {
-    return iterator->data;
-}
+    usize element_size;
+    void *arr;
+};
 
-void
-iterator_advance(Iterator *iterator, s32 offset)
+inline void
+iterator_init(Iterator *iterator, void *arr, usize element_size)
 {
     assert(iterator != NULL);
-    assert(iterator->data != NULL);
+    assert(arr != NULL);
+    assert(element_size != 0);
+
+    iterator->arr = arr;
+    iterator->element_size = element_size;
+}
+
+inline void *
+iterator_current(Iterator *iterator)
+{
+    return iterator->arr;
+}
+
+inline void
+iterator_advance(Iterator *iterator, ssize offset)
+{
+    assert(iterator != NULL);
+    assert(iterator->arr != NULL);
     assert(iterator->element_size > 0);
     assert(offset != 0);
 
-    iterator->data += (iterator->element_size * offset);
+    iterator->arr = cast(u8 *, iterator->arr) +
+                    cast(ssize, iterator->element_size) * offset;
 }
 
-void *
+inline void *
 iterator_next(Iterator *iterator)
 {
     assert(iterator != NULL);
+    assert(iterator->arr != NULL);
 
-    void *current = iterator->data;
+    void *current = iterator->arr;
     iterator_advance(iterator, 1);
 
     return current;
 }
 
-void *
+inline void *
 iterator_previous(Iterator *iterator)
 {
     assert(iterator != NULL);
+    assert(iterator->arr != NULL);
 
-    void *current = iterator->data;
+    void *current = iterator->arr;
     iterator_advance(iterator, -1);
 
     return current;
 }
 
-bool
+inline bool
 iterator_equals(Iterator *lhs, Iterator *rhs)
 {
     assert(lhs != NULL);
     assert(rhs != NULL);
     assert(lhs->element_size == rhs->element_size);
-    return lhs->data == rhs->data;
-}
 
-bool iterator_
+    return lhs->arr == rhs->arr;
+}
