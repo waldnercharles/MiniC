@@ -5,17 +5,9 @@
 #include "minic/allocator.h"
 #include "minic/iterator.h"
 
-#define ARRAY_DEFAULT_CAPACITY 2
+#define ARRAY_DEFAULT_CAPACITY 32
 
-typedef struct
-{
-    Allocator *allocator;
-
-    usize length;
-    usize capacity;
-    usize element_size;
-    void *data;
-} Array;
+typedef struct Array Array;
 
 overload void
 array_init(Array *arr,
@@ -88,8 +80,5 @@ array_iterator(Array *arr, usize index);
 
 usize
 array_iterator_index(Array *arr, Iterator *iterator);
-
-void *
-_array_offset(Array *arr, usize index);
 
 #endif
