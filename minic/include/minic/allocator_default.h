@@ -4,6 +4,6 @@
 #include "minic/allocator.h"
 
 void
-allocator_default_init(Allocator *allocator);
+allocator_init_default(Allocator *allocator);
 
 #endif
