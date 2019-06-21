@@ -1,5 +1,4 @@
-#ifndef TIMER_H
-#define TIMER_H
+#pragma once
 
 #include "minic/int.h"
 
@@ -22,5 +21,3 @@ timer_microseconds(u64 ticks);
 
 r64
 timer_nanoseconds(u64 ticks);
-
-#endif

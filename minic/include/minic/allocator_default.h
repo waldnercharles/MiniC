@@ -1,9 +1,6 @@
-#ifndef DEFAULT_ALLOCATOR_H
-#define DEFAULT_ALLOCATOR_H
+#pragma once
 
 #include "minic/allocator.h"
 
 void
 allocator_init_default(Allocator *allocator);
-
-#endif

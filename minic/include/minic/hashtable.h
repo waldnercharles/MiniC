@@ -1,5 +1,4 @@
-#ifndef HASHTABLE_H
-#define HASHTABLE_H
+#pragma once
 
 #include "minic/allocator.h"
 #include "minic/int.h"
@@ -44,5 +43,3 @@ hashtable_keys_iterator(Hashtable *table, usize index);
 
 Iterator
 hashtable_values_iterator(Hashtable *table, usize index);
-
-#endif

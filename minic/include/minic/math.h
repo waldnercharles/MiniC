@@ -1,5 +1,4 @@
-#ifndef MATH_H
-#define MATH_H
+#pragma once
 
 #include "minic/int.h"
 
@@ -30,5 +29,3 @@ overload inline u64 rotate_left(u64 x, s64 k);
 overload inline u32 rotate_right(u32 x, s32 k);
 overload inline u64 rotate_right(u64 x, s64 k);
 /* clang-format on */
-
-#endif

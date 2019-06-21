@@ -1,5 +1,4 @@
-#ifndef ITERATOR_H
-#define ITERATOR_H
+#pragma once
 
 #include "minic/int.h"
 
@@ -22,5 +21,3 @@ iterator_previous(Iterator *iterator);
 
 bool
 iterator_equals(Iterator *lhs, Iterator *rhs);
-
-#endif

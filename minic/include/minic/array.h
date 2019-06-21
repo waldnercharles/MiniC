@@ -1,5 +1,4 @@
-#ifndef ARRAY_H
-#define ARRAY_H
+#pragma once
 
 #include "minic/int.h"
 #include "minic/allocator.h"
@@ -80,5 +79,3 @@ array_iterator(Array *arr, usize index);
 
 usize
 array_iterator_index(Array *arr, Iterator *iterator);
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef FP_H
-#define FP_H
+#pragma once
 
 #include "minic/int.h"
 
@@ -48,5 +47,3 @@ grisu2_digit_gen(struct fp W,
 
 void
 grisu2(r64 value, char *buffer, usize *length, s32 *K);
-
-#endif

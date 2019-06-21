@@ -1,5 +1,4 @@
-#ifndef ALLOCATOR_H
-#define ALLOCATOR_H
+#pragma once
 
 #include "minic/int.h"
 
@@ -24,5 +23,3 @@ allocator_realloc(Allocator *allocator, void *block, usize size);
 
 void
 allocator_free(Allocator *allocator, void *block);
-
-#endif

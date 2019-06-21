@@ -1,5 +1,4 @@
-#ifndef STRING_H
-#define STRING_H
+#pragma once
 
 #include "minic/int.h"
 
@@ -8,5 +7,3 @@ string_length(char *str);
 
 usize
 string_copy(char *dst, char *src, usize max);
-
-#endif

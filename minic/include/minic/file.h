@@ -1,5 +1,4 @@
-#ifndef MINIC_FILE_H
-#define MINIC_FILE_H
+#pragma once
 
 #include "minic/int.h"
 
@@ -30,5 +29,3 @@ directory_read_file(Directory *dir, File *file);
 
 void
 file_read_ext(File *file);
-
-#endif

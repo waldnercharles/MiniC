@@ -1,5 +1,4 @@
-#ifndef ASSERT_H
-#define ASSERT_H
+#pragma once
 
 #include "minic/int.h"
 
@@ -13,5 +12,3 @@ __assert(bool assertion, const char *message, u32 len);
                                                          ") failed.\n"
 #define assert(x)                                                              \
     __assert(x, assert_format(#x), sizeof(assert_format(#x))), __assume(!!(x))
-
-#endif

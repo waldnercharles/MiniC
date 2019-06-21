@@ -1,5 +1,4 @@
-#ifndef INT_H
-#define INT_H
+#pragma once
 
 #if defined(__ppc64__) || defined(__aarch64__) || defined(_M_X64) ||           \
     defined(__x86_64__) || defined(__x86_64) || defined(_WIN64)
@@ -103,5 +102,3 @@ typedef union
     u64 *u64;
 
 } RawBuffer;
-
-#endif

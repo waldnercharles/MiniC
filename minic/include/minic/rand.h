@@ -1,5 +1,4 @@
-#ifndef RAND_H
-#define RAND_H
+#pragma once
 
 #include "minic/int.h"
 
@@ -13,5 +12,3 @@ rand_seed(Random *rand, u64 seed);
 
 u64
 rand_next_u64(Random *rand);
-
-#endif

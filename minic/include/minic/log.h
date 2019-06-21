@@ -1,5 +1,4 @@
-#ifndef LOG_H
-#define LOG_H
+#pragma once
 
 #include "minic/io.h"
 
@@ -39,6 +38,4 @@
 
 #if log_level < log_level_debug
 #define log_debug(message, ...)
-#endif
-
 #endif

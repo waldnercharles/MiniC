@@ -1,5 +1,4 @@
-#ifndef PRINTF_H
-#define PRINTF_H
+#pragma once
 
 #include "minic/int.h"
 
@@ -26,5 +25,3 @@ io_printf(char *fmt, ...);
 
 usize
 io_printf_handle(char *fmt, void *handle, ...);
-
-#endif
