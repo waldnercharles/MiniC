@@ -4,8 +4,6 @@
 #include "minic/allocator.h"
 #include "minic/iterator.h"
 
-#define ARRAY_DEFAULT_CAPACITY 32
-
 typedef struct Array Array;
 
 overload void
@@ -50,11 +48,11 @@ array_pop_back(Array *arr);
 void
 array_pop_front(Array *arr);
 
-overload void
-array_remove(Array *arr, usize index);
+void
+array_iterator_remove(Array *arr, Iterator *iterator);
 
-overload void
-array_remove(Array *arr, Iterator *iterator);
+void
+array_remove(Array *arr, usize index);
 
 void
 array_clear(Array *arr);
@@ -67,6 +65,12 @@ array_front(Array *arr);
 
 void *
 array_back(Array *arr);
+
+inline usize
+array_count(Array *arr);
+
+inline usize
+array_capacity(Array *arr);
 
 Iterator
 array_begin(Array *arr);

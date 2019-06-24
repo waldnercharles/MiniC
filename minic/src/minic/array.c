@@ -3,11 +3,13 @@
 #include "minic/math.h"
 #include "minic/memory.h"
 
+static const u32 ARRAY_DEFAULT_CAPACITY = 32u;
+
 struct Array
 {
     Allocator *allocator;
 
-    usize length;
+    usize count;
     usize capacity;
     usize element_size;
     void *data;
@@ -28,11 +30,11 @@ array_init(Array *arr, Allocator *allocator, usize element_size, usize capacity)
 {
     assert(arr != NULL);
     assert(allocator != NULL);
-    assert(element_size != 0);
-    assert(capacity != 0);
+    assert(element_size > 0);
+    assert(capacity > 0);
 
     arr->allocator = allocator;
-    arr->length = 0;
+    arr->count = 0;
     arr->capacity = 0;
     arr->element_size = element_size;
     arr->data = NULL;
@@ -68,7 +70,7 @@ array_copy(Array *dst, Array *src)
     }
 
     array_init(dst, src->allocator, src->element_size, src->capacity);
-    mem_copy(dst->data, src->data, src->length * src->element_size);
+    mem_copy(dst->data, src->data, src->count * src->element_size);
 }
 
 void
@@ -124,13 +126,13 @@ array_push_back(Array *arr, void *value)
 {
     assert(arr != NULL);
 
-    if (arr->length == arr->capacity)
+    if (arr->count == arr->capacity)
         array_reserve_pow2(arr, arr->capacity + 1);
 
-    void *offset = array_at(arr, arr->length);
+    void *offset = array_at(arr, arr->count);
     mem_copy(offset, value, arr->element_size);
 
-    arr->length++;
+    arr->count++;
 }
 
 void
@@ -143,25 +145,25 @@ void
 array_insert(Array *arr, usize index, void *value)
 {
     assert(arr != NULL);
-    assert(index <= arr->length);
+    assert(index <= arr->count);
 
-    if (arr->length == arr->capacity)
+    if (arr->count == arr->capacity)
         array_reserve_pow2(arr, arr->capacity + 1);
 
     u8 *offset = array_at(arr, index);
     mem_move(offset + arr->element_size,
              offset,
-             arr->element_size * (arr->length - index));
+             arr->element_size * (arr->count - index));
 
     mem_copy(offset, value, arr->element_size);
-    arr->length++;
+    arr->count++;
 }
 
 void
 array_set(Array *arr, usize index, void *value)
 {
     assert(arr != NULL);
-    assert(index < arr->length);
+    assert(index < arr->count);
 
     u8 *offset = array_at(arr, index);
     mem_copy(offset, value, arr->element_size);
@@ -171,9 +173,9 @@ void
 array_pop_back(Array *arr)
 {
     assert(arr != NULL);
-    assert(arr->length > 0);
+    assert(arr->count > 0);
 
-    arr->length--;
+    arr->count--;
 }
 
 void
@@ -182,22 +184,22 @@ array_pop_front(Array *arr)
     array_remove(arr, cast(usize, 0));
 }
 
-overload void
+void
 array_remove(Array *arr, usize index)
 {
     assert(arr != NULL);
-    assert(index < arr->length);
+    assert(index < arr->count);
 
     u8 *offset = array_at(arr, index);
     mem_move(offset,
              offset + arr->element_size,
-             arr->element_size * (arr->length - index - 1));
+             arr->element_size * (arr->count - index - 1));
 
-    arr->length--;
+    arr->count--;
 }
 
-overload void
-array_remove(Array *arr, Iterator *iterator)
+void
+array_iterator_remove(Array *arr, Iterator *iterator)
 {
     assert(arr != NULL);
     assert(iterator != NULL);
@@ -211,14 +213,14 @@ array_remove(Array *arr, Iterator *iterator)
 void
 array_clear(Array *arr)
 {
-    arr->length = 0;
+    arr->count = 0;
 }
 
 void *
 array_get(Array *arr, usize index)
 {
     assert(arr != NULL);
-    assert(index < arr->length);
+    assert(index < arr->count);
     return array_at(arr, index);
 }
 
@@ -231,7 +233,19 @@ array_front(Array *arr)
 void *
 array_back(Array *arr)
 {
-    return array_get(arr, arr->length - 1);
+    return array_get(arr, arr->count - 1);
+}
+
+inline usize
+array_count(Array *arr)
+{
+    return arr->count;
+}
+
+inline usize
+array_capacity(Array *arr)
+{
+    return arr->capacity;
 }
 
 Iterator
@@ -243,14 +257,14 @@ array_begin(Array *arr)
 Iterator
 array_end(Array *arr)
 {
-    return array_iterator(arr, arr->length);
+    return array_iterator(arr, arr->count);
 }
 
 Iterator
 array_iterator(Array *arr, usize index)
 {
     assert(arr != NULL);
-    assert(index <= arr->length);
+    assert(index <= arr->count);
 
     Iterator iterator;
     iterator_init(&iterator, array_at(arr, index), arr->element_size);
