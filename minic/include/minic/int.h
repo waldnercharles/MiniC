@@ -100,5 +100,21 @@ typedef union
 
     s64 *s64;
     u64 *u64;
-
 } RawBuffer;
+
+typedef union
+{
+    const char *str;
+
+    const s8 *s8;
+    const u8 *u8;
+
+    const s16 *s16;
+    const u16 *u16;
+
+    const s32 *s32;
+    const u32 *u32;
+
+    const s64 *s64;
+    const u64 *u64;
+} ReadOnlyRawBuffer;

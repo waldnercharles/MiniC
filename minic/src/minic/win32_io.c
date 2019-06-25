@@ -5,13 +5,13 @@
 #include <win32/file.h>
 
 void *
-io_output_handle()
+io_output_handle(void)
 {
     return GetStdHandle(STD_OUTPUT_HANDLE);
 }
 
 void *
-io_error_handle()
+io_error_handle(void)
 {
     return GetStdHandle(STD_ERROR_HANDLE);
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "minic/assert.h"
 #include "minic/io.h"
 
 #define log_level_none 0
@@ -12,12 +13,16 @@
 #define log_level log_level_debug
 #endif
 
+void *
+log_handle(void);
+
 #define log(message, tag, ...)                                                 \
-    io_printf("[%s] (%s:%d): " message "\n",                                   \
-              (tag),                                                           \
-              __FILE__,                                                        \
-              __LINE__,                                                        \
-              ##__VA_ARGS__)
+    io_printf_handle("[%s] (%s:%d): " message "\r\n",                          \
+                     log_handle(),                                             \
+                     (tag),                                                    \
+                     __FILE__,                                                 \
+                     __LINE__,                                                 \
+                     ##__VA_ARGS__)
 
 #define log_error(message, ...) log(message, "ERROR", ##__VA_ARGS__)
 #define log_warning(message, ...) log(message, "WARNING", ##__VA_ARGS__)

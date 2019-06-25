@@ -26,20 +26,51 @@ struct File
     usize size;
 };
 
+static void
+file_read_ext(File *file)
+{
+    assert(file != NULL);
+
+    char *filename = file->name;
+    char *ext = NULL;
+
+    while (*filename++)
+    {
+        if (*filename == '.')
+        {
+            ext = filename;
+        }
+    }
+
+    if (ext != NULL)
+    {
+        string_copy(file->ext, ext, FILE_MAX_EXTENSION);
+    }
+    else
+    {
+        *file->ext = 0;
+
+        if (!file->is_dir)
+        {
+            log_warning("No extension found: %s", file->name);
+        }
+    }
+}
+
 inline bool
 directory_has_next(Directory *dir)
 {
     return dir->has_next;
 }
 
-inline char *
+inline const char *
 directory_path(Directory *dir)
 {
     return dir->path;
 }
 
 bool
-directory_open(Directory *dir, char *path)
+directory_open(Directory *dir, const char *path)
 {
     assert(dir != NULL);
     assert(path != NULL);
@@ -62,6 +93,7 @@ directory_open(Directory *dir, char *path)
     }
 
     dir->has_next = true;
+    log_info("Directory Opened: %s", dir->path);
 
     return dir->has_next;
 }
@@ -93,11 +125,11 @@ directory_next(Directory *dir)
 
     if (err == ERROR_SUCCESS)
     {
-        log_info("(%s) Found file: %s", dir->path, dir->file.cFileName);
+        log_info("Found file: %s", dir->file.cFileName);
     }
     if (!dir->has_next)
     {
-        log_info("(%s) No more files", dir->path);
+        log_info("No more files");
     }
 }
 
@@ -109,58 +141,37 @@ directory_read_file(Directory *dir, File *file)
 
     usize n = 0;
 
-    char *dpath = dir->path;
+    const char *dpath = dir->path;
     char *fpath = file->path;
 
     n = string_copy(fpath, dpath, FILE_MAX_PATH) - 1;
     n += string_copy(fpath + n, "/", FILE_MAX_PATH - n) - 1;
 
-    char *dname = dir->file.cFileName;
+    const char *dname = dir->file.cFileName;
     char *fname = file->name;
 
     string_copy(fname, dname, FILE_MAX_FILENAME);
     string_copy(fpath + n, fname, FILE_MAX_PATH - n);
 
     file->size =
-        ((dir->file.nFileSizeHigh * (U32_MAX + 1)) + dir->file.nFileSizeLow);
-
-    file_read_ext(file);
+        ((cast(usize, dir->file.nFileSizeHigh) * (cast(usize, U32_MAX) + 1)) +
+         dir->file.nFileSizeLow);
 
     file->is_dir = !!(dir->file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY);
-    file->is_reg = !!(dir->file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ||
-                   !(dir->file.dwFileAttributes & FILE_ATTRIBUTE_NORMAL);
+    file->is_reg = !!(dir->file.dwFileAttributes & FILE_ATTRIBUTE_NORMAL) ||
+                   !(dir->file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY);
+
+    file_read_ext(file);
 }
 
-inline char *
+inline const char *
+file_name(File *file)
+{
+    return file->name;
+}
+
+inline const char *
 file_ext(File *file)
 {
     return file->ext;
-}
-
-void
-file_read_ext(File *file)
-{
-    assert(file != NULL);
-
-    char *filename = file->name;
-    char *ext = NULL;
-
-    while (*filename++)
-    {
-        if (*filename == '.')
-        {
-            ext = filename;
-        }
-    }
-
-    if (ext != NULL)
-    {
-        string_copy(file->ext, ext, FILE_MAX_EXTENSION);
-        log_info("(%s) Found extension %s", file->name, file->ext);
-    }
-    else
-    {
-        *file->ext = 0;
-        log_warning("(%s) No extension found", file->name);
-    }
 }

@@ -1,4 +1,7 @@
 #include "minic/allocator_default.h"
+#include "minic/array.h"
+#include "minic/file.h"
+#include "minic/handle.h"
 #include "minic/hashtable.h"
 #include "minic/int.h"
 #include "minic/io.h"
@@ -11,43 +14,52 @@ main()
     Allocator allocator;
     allocator_init_default(&allocator);
 
-    Random rand;
-    rand_seed(&rand, 0x92385611ull);
+    Directory directory;
+    directory_open(&directory, ".");
 
-    Hashtable hashtable;
-    hashtable_init(&hashtable, &allocator, sizeof(u32), 32u);
+    while (directory_has_next(&directory))
+    {
+        File file;
+        directory_read_file(&directory, &file);
+
+        io_printf("%s\n", file_name(&file));
+
+        directory_next(&directory);
+    }
+
+    directory_close(&directory);
+
+    /*HandleManager handle_manager;
+    handle_init(&handle_manager, &allocator, 1000);
+
+    Array arr;
+    array_init(&arr, &allocator, sizeof(u32));
 
     for (u32 i = 0; i < 10; i++)
     {
-        u32 tmp = (i + 1) * (i + 1);
-        u64 key = rand_next_u64(&rand);
-        io_printf("Adding: %llu, %u\n", key, tmp);
-        hashtable_add(&hashtable, key, &tmp);
+        u32 handle_index = handle_create(&handle_manager, i);
+        array_push_back(&arr, &handle_index);
     }
 
-    Iterator keys = hashtable_keys_iterator(&hashtable, 0);
-    Iterator values = hashtable_values_iterator(&hashtable, 0);
-
-    u32 remove_count = (rand_next_u64(&rand) & 3) + 1;
-    for (u32 i = 0; i < remove_count; i++)
+    for (u32 i = 0; i < 5; i++)
     {
-        iterator_advance(&keys, 2);
-        u64 key = *cast(u64 *, iterator_current(&keys));
-        io_printf("Removing: %llu\n", key);
-        hashtable_remove(&hashtable, key);
+        u32 handle_index = *cast(u32 *, array_get(&arr, 0));
+        array_remove(&arr, 0);
+
+        handle_dispose(&handle_manager, handle_index);
+
+        handle_index = handle_create(&handle_manager, i);
+        array_push_back(&arr, &handle_index);
     }
 
-    keys = hashtable_keys_iterator(&hashtable, 0);
-    u32 count = hashtable_count(&hashtable);
-    for (u32 i = 0; i < count; i++)
+    for (u32 i = 0; i < array_count(&arr); i++)
     {
-        u64 key = *cast(u64 *, iterator_next(&keys));
-        u32 value = *cast(u32 *, iterator_next(&values));
-        io_printf("%llu: %u, %u\n",
-                  key,
-                  value,
-                  *cast(u32 *, hashtable_get(&hashtable, key)));
-    }
+        u32 handle_index = *cast(u32 *, array_get(&arr, i));
+        io_printf("%u:(%u, %u) ",
+                  handle_index,
+                  handle_key(&handle_manager, handle_index),
+                  handle_generation(&handle_manager, handle_index));
+    }*/
 
     return 0;
 }

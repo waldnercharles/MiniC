@@ -2,10 +2,22 @@
 #include "minic/int.h"
 #include "minic/assert.h"
 
-usize
-string_length(char *str)
+static inline bool
+string_has_null(u32 aligned_addr)
 {
-    RawBuffer buf = { .str = str };
+    return ((aligned_addr - 0x01010101) & ((~aligned_addr) & 0x80808080)) > 0;
+}
+
+static inline bool
+string_has_char(u32 aligned_addr, u32 mask)
+{
+    return string_has_null(aligned_addr ^ mask);
+}
+
+usize
+string_length(const char *str)
+{
+    ReadOnlyRawBuffer buf = { .str = str };
 
     usize n = 0;
     bool unaligned = cast(uptr, str) & 3;
@@ -14,7 +26,7 @@ string_length(char *str)
         assert(buf.u32 != NULL);
 
         u32 word = *buf.u32;
-        u32 has_null = (word - 0x01010101) & ((~word) & 0x80808080);
+        bool has_null = string_has_null(word);
 
         if (unaligned || has_null)
         {
@@ -41,7 +53,7 @@ string_length(char *str)
 }
 
 usize
-string_copy(char *dst, char *src, usize max)
+string_copy(char *dst, const char *src, usize max)
 {
     assert(dst != NULL);
     assert(src != NULL);
@@ -60,4 +72,50 @@ string_copy(char *dst, char *src, usize max)
     } while (c);
 
     return n;
+}
+
+const char *
+string_find_char(const char *str, const char i)
+{
+    ReadOnlyRawBuffer buf = { .str = str };
+    bool unaligned = cast(uptr, str) & 3;
+
+    u32 c = cast(u32, i);
+    u32 mask = (c << 24) | (c << 16) | (c << 8) | c;
+    for (;;)
+    {
+        assert(buf.u32 != NULL);
+
+        u32 word = *buf.u32;
+
+        bool has_null = string_has_null(word);
+        bool has_char = string_has_char(word, mask);
+
+        if (unaligned || has_null || has_char)
+        {
+            do
+            {
+                assert(buf.str != NULL);
+
+                if (*buf.str == i)
+                {
+                    return buf.str;
+                }
+
+                if (*buf.str == 0)
+                {
+                    return NULL;
+                }
+
+                ++buf.str;
+
+            } while (cast(uptr, buf.str) & 3);
+
+            unaligned = false;
+        }
+        else
+        {
+            buf.str += 4;
+        }
+    }
 }

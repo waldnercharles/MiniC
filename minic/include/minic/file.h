@@ -12,11 +12,11 @@ typedef struct File File;
 inline bool
 directory_has_next(Directory *dir);
 
-inline char *
+inline const char *
 directory_path(Directory *dir);
 
 bool
-directory_open(Directory *dir, char *path);
+directory_open(Directory *dir, const char *path);
 
 void
 directory_close(Directory *dir);
@@ -27,5 +27,8 @@ directory_next(Directory *dir);
 void
 directory_read_file(Directory *dir, File *file);
 
-void
-file_read_ext(File *file);
+inline const char *
+file_name(File *file);
+
+inline const char *
+file_ext(File *file);
