@@ -6,7 +6,7 @@
 #include "minic/file.h"
 #include "minic/string.h"
 
-struct AssetLoader
+struct VirtualFileSystem
 {
     Allocator *allocator;
 };
@@ -22,18 +22,20 @@ struct AssetLoader
 //}
 
 void
-asset_loader_init(AssetLoader *loader, Allocator *allocator)
+vfs_init(VirtualFileSystem *vfs, Allocator *allocator)
 {
-    assert(loader != NULL);
+    assert(vfs != NULL);
     assert(allocator != NULL);
 
-    loader->allocator = allocator;
+    vfs->allocator = allocator;
 
     // TODO: Strpool
 }
 
+#define Array(type) type *
+
 void
-asset_loader_mount(AssetLoader *loader, char *path, char *mount)
+vfs_mount(VirtualFileSystem *loader, char *path, char *mount)
 {
     assert(loader != NULL);
 
@@ -53,6 +55,10 @@ asset_loader_mount(AssetLoader *loader, char *path, char *mount)
                     (string_find_char(mount, ':') == NULL);
     assert(is_valid);
 
+    // TODO: Handle zip files
+
     Directory dir;
-    directory_open(&dir, *path == '\0' ? "." : path);
+    if (directory_open(&dir, *path == '\0' ? "." : path))
+    {
+    }
 }

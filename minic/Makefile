@@ -23,9 +23,11 @@ CFLAGS = \
 	-nologo \
 	-Od -Oi -GR- -GS- -EHa- -Zi -Zo -Zc:inline -fp:fast -fp:except- \
 	-Wall -Wextra -Wpedantic -Weverything -Werror \
-	-Wno-language-extension-token -Wno-gnu-zero-variadic-macro-arguments \
+	-Wno-language-extension-token -Wno-gnu-zero-variadic-macro-arguments -Wno-c++98-compat -Wno-c++98-compat-pedantic \
+	-Wno-shadow-field-in-constructor -Wno-shadow \
 	-ferror-limit=256 \
-	$(INCLUDES) $(IGNORED_WARNINGS)
+	$(INCLUDES) $(IGNORED_WARNINGS) \
+	-Xclang -std=c++17
 
 LFLAGS = \
 	-machine:x64 \
@@ -42,5 +44,5 @@ LFLAGS = \
 	legacy_stdio_wide_specifiers.lib \
 	kernel32.lib User32.lib
 
-main: src\unity_build.c
-	$(CC) $(CFLAGS) src\unity_build.c -Fobin\unity_build.obj -Fdbin\main.pdb -Febin\main.exe -link $(LFLAGS)
+main: src\unity_build.cpp
+	$(CC) $(CFLAGS) src\unity_build.cpp -Fobin\unity_build.obj -Fdbin\main.pdb -Febin\main.exe -link $(LFLAGS)

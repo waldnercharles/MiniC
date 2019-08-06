@@ -96,7 +96,8 @@ hashtable_expand_slots(Hashtable *table)
     table->slots_capacity <<= 1;
     usize slots_bytes = table->slots_capacity * sizeof(HashtableSlot);
 
-    table->slots = allocator_alloc(table->allocator, slots_bytes);
+    table->slots =
+        cast(HashtableSlot *, allocator_alloc(table->allocator, slots_bytes));
 
     assert(table->slots != NULL);
     mem_set(table->slots, 0, slots_bytes);
@@ -141,12 +142,13 @@ hashtable_expand_items(Hashtable *table)
     usize items_bytes = table->items.capacity *
                         (sizeof(u64) + sizeof(u32) + table->items.element_size);
 
-    table->items.key = allocator_alloc(table->allocator, items_bytes);
+    table->items.key =
+        cast(u64 *, allocator_alloc(table->allocator, items_bytes));
 
     assert(table->items.key != NULL);
 
     table->items.slot_index =
-        cast(u32 *, table->items.key + table->items.capacity);
+        reinterpret_cast<u32 *>(table->items.key + table->items.capacity);
 
     table->items.value =
         cast(void *, table->items.slot_index + table->items.capacity);
@@ -175,7 +177,8 @@ hashtable_init(Hashtable *table,
     table->slots_capacity = next_pow2(capacity + (capacity >> 1));
     usize slots_bytes = table->slots_capacity * sizeof(HashtableSlot);
 
-    table->slots = allocator_alloc(allocator, slots_bytes);
+    table->slots =
+        static_cast<HashtableSlot *>(allocator_alloc(allocator, slots_bytes));
 
     assert(table->slots != NULL);
     mem_set(table->slots, 0, slots_bytes);
@@ -187,13 +190,13 @@ hashtable_init(Hashtable *table,
     usize items_bytes = table->items.capacity *
                         (sizeof(u64) + sizeof(u32) + table->items.element_size);
 
-    table->items.key = allocator_alloc(allocator, items_bytes);
+    table->items.key = cast(u64 *, allocator_alloc(allocator, items_bytes));
 
     assert(table->items.key != NULL);
     mem_set(table->items.key, 0, items_bytes);
 
     table->items.slot_index =
-        cast(u32 *, table->items.key + table->items.capacity);
+        reinterpret_cast<u32 *>(table->items.key + table->items.capacity);
 
     table->items.value =
         cast(void *, table->items.slot_index + table->items.capacity);

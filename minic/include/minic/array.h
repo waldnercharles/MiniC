@@ -1,85 +1,202 @@
 #pragma once
 
-#include "minic/int.h"
 #include "minic/allocator.h"
+#include "minic/int.h"
 #include "minic/iterator.h"
 
-typedef struct Array Array;
+template <typename T>
+struct Array
+{
+public:
+    Array(Allocator *allocator);
+    Array(Allocator *allocator, usize capacity);
+    ~Array();
 
-overload void
-array_init(Array *arr,
-           Allocator *allocator,
-           usize element_size,
-           usize capacity);
+    void reserve(usize capacity);
+    void reserve_pow2(usize capacity);
 
-overload void
-array_init(Array *arr, Allocator *allocator, usize element_size);
+    T *begin();
+    T *end();
 
-void
-array_free(Array *arr);
+    const T *begin() const;
+    const T *end() const;
 
-void
-array_copy(Array *dst, Array *src);
+    void push_back(const T value);
+    void push_back(const T *range_begin, const T *range_end);
 
-void
-array_move(Array *dst, Array *src);
+    void push_front(const T value);
+    void push_front(const T *range_begin, const T *range_end);
 
-bool
-array_reserve(Array *arr, usize capacity);
+    void pop_back();
 
-bool
-array_reserve_pow2(Array *arr, usize capacity);
+    void insert(usize index, const T value);
+    void insert(usize index, const T *range_begin, const T *range_end);
+    void insert(T *insert_pos, const T value);
+    void insert(T *insert_pos, const T *range_begin, const T *range_end);
 
-void
-array_push_back(Array *Arr, void *value);
+    T *remove(usize index);
+    T *remove(T *remove_pos);
+    T *remove(T *range_begin, T *range_end);
 
-void
-array_push_front(Array *Arr, void *value);
+    void clear();
 
-void
-array_insert(Array *arr, usize index, void *value);
+    // T at(usize index);
+    const T at(usize index) const;
 
-void
-array_set(Array *arr, usize index, void *value);
+    // T front();
+    const T front() const;
 
-void
-array_pop_back(Array *arr);
+    // T back();
+    const T back() const;
 
-void
-array_pop_front(Array *arr);
+    T &operator[](usize index);
+    const T &operator[](usize index) const;
 
-void
-array_iterator_remove(Array *arr, Iterator *iterator);
+private:
+    T *data;
+    usize count;
+    usize capacity;
 
-void
-array_remove(Array *arr, usize index);
+    Allocator *allocator;
+};
 
-void
-array_clear(Array *arr);
+// template <typename T>
+// void array_init(Array<T> *arr, Allocator *allocator);
+//
+// template <typename T>
+// void array_init(Array<T> *arr, Allocator *allocator, usize capacity);
+//
+// template <typename T>
+// void array_reserve(Array<T> *arr, usize capacity);
+//
+// template <typename T>
+// void array_reserve_pow2(Array<T> *arr, usize capacity);
+//
+// template <typename T>
+// void array_free(Array<T> *arr);
+//
+// template <typename T>
+// T *array_begin(Array<T> *arr);
+//
+// template <typename T>
+// const T *array_begin(Array<T> *arr);
+//
+// template <typename T>
+// T *array_end(Array<T> *arr);
+//
+// template <typename T>
+// const T *array_end(Array<T> *arr);
+//
+// template <typename T>
+// bool array_is_empty(Array<T> *arr);
+//
+// template <typename T>
+// void array_push_back(Array<T> *arr, const T value);
+//
+// template <typename T>
+// void array_push_back(Array<T> *arr, Array<T> *other);
+//
+// template <typename T>
+// void array_push_front(Array<T> *arr, const T value);
+//
+// template <typename T>
+// void array_push_front(Array<T> *arr, Array<T> *other);
+//
+// template <typename T>
+// void array_insert(Array<T> *arr, usize index, const T value);
+//
+// template <typename T>
+// void array_insert(Array<T> *arr, usize index, Array<T> *other);
+//
+// template <typename T>
+// T array_pop_back(Array<T> *arr);
+//
+// template <typename T>
+// T array_pop_front(Array<T> *arr);
+//
+// template <typename T>
+// void array_remove(Array<T> *arr, usize index);
 
-void *
-array_get(Array *arr, usize index);
+/*template <typename T>
+struct Array
+{
+    explicit Array(Allocator &allocator);
+    explicit Array(const Array<T> &other);
+    explicit Array(Array<T> &&other);
 
-void *
-array_front(Array *arr);
+    ~Array();
 
-void *
-array_back(Array *arr);
+    void reserve(usize capacity);
+    void reserve_pow2(usize capacity);
 
-inline usize
-array_count(Array *arr);
+    T *begin();
+    const T *begin() const;
 
-inline usize
-array_capacity(Array *arr);
+    T *end();
+    const T *end() const;
 
-Iterator
-array_begin(Array *arr);
+    bool is_empty() const;
 
-Iterator
-array_end(Array *arr);
+    usize get_count() const;
+    usize get_capacity() const;
 
-Iterator
-array_iterator(Array *arr, usize index);
+    T &operator[](usize index);
+    T &at(usize index);
+    T &front();
+    T &back();
 
-usize
-array_iterator_index(Array *arr, Iterator *iterator);
+    const T &operator[](usize index) const;
+    const T &at(usize index) const;
+    const T &front() const;
+    const T &back() const;
+
+    void push_back(T &&value);
+    void push_back(const T &value);
+
+    void push_front(T &&value);
+    void push_front(const T &value);
+
+    void insert(usize index, const T &value);
+    void insert(usize index, T &&value);
+
+private:
+    T *data = NULL;
+    usize count = 0;
+    usize capacity = 0;
+
+    Allocator &allocator;
+}*/
+
+// void array_push_front(Array *Arr, void *value);
+//
+// void array_insert(Array *arr, usize index, void *value);
+//
+// void array_set(Array *arr, usize index, void *value);
+//
+// void array_pop_back(Array *arr);
+//
+// void array_pop_front(Array *arr);
+//
+// void array_iterator_remove(Array *arr, Iterator *iterator);
+//
+// void array_remove(Array *arr, usize index);
+//
+// void array_clear(Array *arr);
+//
+// void *array_get(Array *arr, usize index);
+//
+// void *array_front(Array *arr);
+//
+// void *array_back(Array *arr);
+//
+// inline usize array_count(Array *arr);
+//
+// inline usize array_capacity(Array *arr);
+//
+// Iterator array_begin(Array *arr);
+//
+// Iterator array_end(Array *arr);
+//
+// Iterator array_iterator(Array *arr, usize index);
+//
+// usize array_iterator_index(Array *arr, Iterator *iterator);

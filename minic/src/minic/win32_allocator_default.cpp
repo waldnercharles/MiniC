@@ -1,0 +1,38 @@
+#include <win32/io.h>
+
+#include "minic/allocator_default.h"
+#include "minic/assert.h"
+#include "minic/int.h"
+
+CAllocator::CAllocator()
+{
+    this->handle = GetProcessHeap();
+
+    assert(this->handle != NULL);
+}
+
+void *CAllocator::alloc(usize bytes)
+{
+    assert(this->handle != NULL);
+    assert(bytes > 0);
+
+    return HeapAlloc(this->handle, HEAP_ZERO_MEMORY, bytes);
+}
+
+void *CAllocator::realloc(void *address, usize bytes)
+{
+    assert(this->handle != NULL);
+    assert(bytes > 0);
+
+    return address == NULL
+               ? HeapAlloc(this->handle, HEAP_ZERO_MEMORY, bytes)
+               : HeapReAlloc(this->handle, HEAP_ZERO_MEMORY, address, bytes);
+}
+
+void CAllocator::free(void *address)
+{
+    assert(this->handle != NULL);
+    assert(address != NULL);
+
+    HeapFree(this->handle, 0, address);
+}

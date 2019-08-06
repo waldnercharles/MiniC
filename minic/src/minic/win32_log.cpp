@@ -6,9 +6,9 @@
 void *
 log_handle(void)
 {
-    static HANDLE handle = 0;
+    static HANDLE handle = NULL;
 
-    if (handle == 0)
+    if (handle == NULL)
     {
         handle = CreateFileA("log.txt",
                              GENERIC_WRITE,

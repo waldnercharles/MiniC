@@ -2,9 +2,9 @@
 
 #include "minic/int.h"
 
-inline void
-__assert(bool assertion, const char *message, u32 len);
+inline void __assert(bool assertion, const char *message, u32 len);
 
+#ifdef DEBUG
 #define assert_stringify(x) #x
 #define assert_to_string(x) assert_stringify(x)
 #define assert_format(x)                                                       \
@@ -12,3 +12,9 @@ __assert(bool assertion, const char *message, u32 len);
                                                          ") failed.\n"
 #define assert(x)                                                              \
     __assert(x, assert_format(#x), sizeof(assert_format(#x))), __assume(!!(x))
+#else
+#define assert_stringify(x)
+#define assert_to_string(x)
+#define assert_format(x)
+#define assert(x)
+#endif

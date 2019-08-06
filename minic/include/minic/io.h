@@ -9,19 +9,19 @@ void *
 io_error_handle(void);
 
 usize
-io_vsnprintf(char *buf, usize capacity, char *fmt, va_list va);
+io_vsnprintf(char *buf, usize capacity, const char *fmt, va_list va);
 
 usize
-io_vsprintf(char *buf, char *fmt, va_list va);
+io_vsprintf(char *buf, const char *fmt, va_list va);
 
 usize
-io_snprintf(char *buf, usize capacity, char *fmt, ...);
+io_snprintf(char *buf, usize capacity, const char *fmt, ...);
 
 usize
-io_sprintf(char *buf, char *fmt, ...);
+io_sprintf(char *buf, const char *fmt, ...);
 
 usize
-io_printf(char *fmt, ...);
+io_printf(const char *fmt, ...);
 
 usize
-io_printf_handle(char *fmt, void *handle, ...);
+io_printf_handle(const char *fmt, void *handle, ...);

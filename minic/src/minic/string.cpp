@@ -17,10 +17,11 @@ string_has_char(u32 aligned_addr, u32 mask)
 usize
 string_length(const char *str)
 {
-    ReadOnlyRawBuffer buf = { .str = str };
+    ReadOnlyRawBuffer buf;
+    buf.str = str;
 
     usize n = 0;
-    bool unaligned = cast(uptr, str) & 3;
+    bool unaligned = reinterpret_cast<uptr>(str) & 3;
     for (;;)
     {
         assert(buf.u32 != NULL);
@@ -40,7 +41,7 @@ string_length(const char *str)
 
                 ++buf.str;
                 ++n;
-            } while (cast(uptr, buf.str) & 3);
+            } while (reinterpret_cast<uptr>(buf.str) & 3);
 
             unaligned = false;
         }
@@ -77,8 +78,10 @@ string_copy(char *dst, const char *src, usize max)
 const char *
 string_find_char(const char *str, const char i)
 {
-    ReadOnlyRawBuffer buf = { .str = str };
-    bool unaligned = cast(uptr, str) & 3;
+    ReadOnlyRawBuffer buf;
+    buf.str = str;
+
+    bool unaligned = reinterpret_cast<uptr>(str) & 3;
 
     u32 c = cast(u32, i);
     u32 mask = (c << 24) | (c << 16) | (c << 8) | c;
@@ -109,7 +112,7 @@ string_find_char(const char *str, const char i)
 
                 ++buf.str;
 
-            } while (cast(uptr, buf.str) & 3);
+            } while (reinterpret_cast<uptr>(buf.str) & 3);
 
             unaligned = false;
         }

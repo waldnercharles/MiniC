@@ -89,6 +89,8 @@ directory_open(Directory *dir, const char *path)
         // TODO: Error codes
         log_error("Failed to open directory (%s)", path);
         directory_close(dir);
+
+        assert(dir->handle != INVALID_HANDLE_VALUE);
         return false;
     }
 

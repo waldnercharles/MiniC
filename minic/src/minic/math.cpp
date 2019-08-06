@@ -1,17 +1,33 @@
 #include "minic/math.h"
 
 /* clang-format off */
+overload inline u8 min(u8 x, u8 y) { return x < y ? x : y; }
+overload inline s8 min(s8 x, s8 y) { return x < y ? x : y; }
+
+overload inline u16 min(u16 x, u16 y) { return x < y ? x : y; }
+overload inline s16 min(s16 x, s16 y) { return x < y ? x : y; }
+
 overload inline u32 min(u32 x, u32 y) { return x < y ? x : y; }
-overload inline u64 min(u64 x, u64 y) { return x < y ? x : y; }
 overload inline s32 min(s32 x, s32 y) { return x < y ? x : y; }
+
+overload inline u64 min(u64 x, u64 y) { return x < y ? x : y; }
 overload inline s64 min(s64 x, s64 y) { return x < y ? x : y; }
+
 overload inline r32 min(r32 x, r32 y) { return x < y ? x : y; }
 overload inline r64 min(r64 x, r64 y) { return x < y ? x : y; }
 
+overload inline u8 max(u8 x, u8 y) { return x > y ? x : y; }
+overload inline s8 max(s8 x, s8 y) { return x > y ? x : y; }
+
+overload inline u16 max(u16 x, u16 y) { return x > y ? x : y; }
+overload inline s16 max(s16 x, s16 y) { return x > y ? x : y; }
+
 overload inline u32 max(u32 x, u32 y) { return x > y ? x : y; }
-overload inline u64 max(u64 x, u64 y) { return x > y ? x : y; }
 overload inline s32 max(s32 x, s32 y) { return x > y ? x : y; }
+
+overload inline u64 max(u64 x, u64 y) { return x > y ? x : y; }
 overload inline s64 max(s64 x, s64 y) { return x > y ? x : y; }
+
 overload inline r32 max(r32 x, r32 y) { return x > y ? x : y; }
 overload inline r64 max(r64 x, r64 y) { return x > y ? x : y; }
 /* clang-format on */

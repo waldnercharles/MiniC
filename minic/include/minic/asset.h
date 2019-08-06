@@ -2,10 +2,10 @@
 
 #include "minic/allocator.h"
 
-typedef struct AssetLoader AssetLoader;
+typedef struct VirtualFileSystem VirtualFileSystem;
 
 void
-asset_loader_init(AssetLoader *loader, Allocator *allocator);
+vfs_init(VirtualFileSystem *loader, Allocator *allocator);
 
 void
-asset_loader_mount(AssetLoader *loader, char *path, char *mount);
+vfs_mount(VirtualFileSystem *loader, char *path, char *mount);

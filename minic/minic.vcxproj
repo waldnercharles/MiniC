@@ -19,26 +19,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\minic\allocator.c" />
-    <ClCompile Include="src\minic\asset.c" />
-    <ClCompile Include="src\minic\handle.c" />
+    <ClCompile Include="src\minic\allocator.cpp" />
+    <ClCompile Include="src\minic\asset.cpp" />
+    <ClCompile Include="src\minic\handle.cpp" />
     <ClCompile Include="src\minic\hashtable.c" />
-    <ClCompile Include="src\minic\iterator.c" />
-    <ClCompile Include="src\minic\string.c" />
-    <ClCompile Include="src\minic\win32_allocator_default.c" />
-    <ClCompile Include="src\minic\array.c" />
-    <ClCompile Include="src\minic\fp.c" />
-    <ClCompile Include="src\minic\io.c" />
-    <ClCompile Include="src\minic\memory.c" />
-    <ClCompile Include="src\minic\rand.c" />
-    <ClCompile Include="src\minic\win32_assert.c" />
-    <ClCompile Include="src\minic\timer.c" />
-    <ClCompile Include="src\minic\win32_file.c" />
-    <ClCompile Include="src\minic\win32_io.c" />
-    <ClCompile Include="src\main.c" />
-    <ClCompile Include="src\minic\math.c" />
-    <ClCompile Include="src\minic\win32_log.c" />
-    <ClCompile Include="src\unity_build.c" />
+    <ClCompile Include="src\minic\iterator.cpp" />
+    <ClCompile Include="src\minic\string.cpp" />
+    <ClCompile Include="src\minic\win32_allocator_default.cpp" />
+    <ClCompile Include="src\minic\array.cpp" />
+    <ClCompile Include="src\minic\fp.cpp" />
+    <ClCompile Include="src\minic\io.cpp" />
+    <ClCompile Include="src\minic\memory.cpp" />
+    <ClCompile Include="src\minic\rand.cpp" />
+    <ClCompile Include="src\minic\win32_assert.cpp" />
+    <ClCompile Include="src\minic\timer.cpp" />
+    <ClCompile Include="src\minic\win32_file.cpp" />
+    <ClCompile Include="src\minic\win32_io.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\minic\math.cpp" />
+    <ClCompile Include="src\minic\win32_log.cpp" />
+    <ClCompile Include="src\unity_build.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\minic\allocator.h" />
@@ -46,8 +46,10 @@
     <ClInclude Include="include\minic\array.h" />
     <ClInclude Include="include\minic\assert.h" />
     <ClInclude Include="include\minic\asset.h" />
+    <ClInclude Include="include\minic\dynamicarray.h" />
     <ClInclude Include="include\minic\file.h" />
     <ClInclude Include="include\minic\fp.h" />
+    <ClInclude Include="include\minic\generic_array.h" />
     <ClInclude Include="include\minic\handle.h" />
     <ClInclude Include="include\minic\hashtable.h" />
     <ClInclude Include="include\minic\int.h" />
@@ -59,7 +61,7 @@
     <ClInclude Include="include\minic\rand.h" />
     <ClInclude Include="include\minic\string.h" />
     <ClInclude Include="include\minic\timer.h" />
-    <ClInclude Include="src\minic\win32_timer.c" />
+    <ClInclude Include="src\minic\win32_timer.cpp" />
     <ClInclude Include="third_party\include\win32\atomic.h" />
     <ClInclude Include="third_party\include\win32\dbghelp.h" />
     <ClInclude Include="third_party\include\win32\dds.h" />
@@ -161,8 +163,7 @@
     <SourcePath />
     <ExcludePath />
     <ExecutablePath>C:\Program Files\LLVM\bin;$(ExecutablePath)</ExecutablePath>
-    <AdditionalOptions>
-    </AdditionalOptions>
+    <AdditionalOptions>/std:c++17</AdditionalOptions>
     <IntDir>.\bin</IntDir>
     <NMakeIncludeSearchPath>$(ProjectDir)\third_party\include;$(ProjectDir)\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared;C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt;C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um</NMakeIncludeSearchPath>
   </PropertyGroup>

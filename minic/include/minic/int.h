@@ -17,8 +17,13 @@
 #define overload
 #endif
 
-#define cast(T, V) ((T)(V))
+#ifdef __cplusplus
+#define NULL nullptr
+#define cast(T, V) (static_cast<T>(V))
+#else
 #define NULL cast(void *, 0)
+#define cast(T, V) ((T)(V))
+#endif
 
 #include <vadefs.h>
 
@@ -52,9 +57,9 @@ typedef unsigned long long  u64;
 typedef float               r32;
 typedef double              r64;
 
-typedef enum { false, true } bool;
-#define true 1
-#define false 0
+// typedef enum { false, true } bool;
+// #define true 1
+// #define false 0
 
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
@@ -118,3 +123,46 @@ typedef union
     const s64 *s64;
     const u64 *u64;
 } ReadOnlyRawBuffer;
+
+template <typename T>
+struct remove_reference
+{
+    typedef T type;
+};
+
+template <typename T>
+struct remove_reference<T &>
+{
+    typedef T type;
+};
+
+template <typename T>
+struct remove_reference<T &&>
+{
+    typedef T type;
+};
+
+template <typename T>
+typename remove_reference<T>::type &&rvalue(T &&arg)
+{
+    return static_cast<typename remove_reference<decltype(arg)>::type &&>(arg);
+}
+
+template <typename T>
+void swap(T &x, T &y)
+{
+    T tmp = rvalue(x);
+    x = rvalue(y);
+    y = rvalue(tmp);
+}
+
+template <typename TIn, typename TOut>
+TOut copy(TIn first, TIn last, TOut result)
+{
+    while (first != last)
+    {
+        *result++ = *first++;
+    }
+
+    return result;
+}
