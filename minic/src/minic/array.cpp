@@ -35,6 +35,18 @@ Array<T>::~Array()
 }
 
 template <typename T>
+usize Array<T>::get_count() const
+{
+    return this->count;
+}
+
+template <typename T>
+usize Array<T>::get_capacity() const
+{
+    return this->capacity;
+}
+
+template <typename T>
 void Array<T>::reserve(usize capacity)
 {
     if (capacity > this->capacity)
@@ -171,6 +183,17 @@ void Array<T>::insert(usize index, const T value)
 }
 
 template <typename T>
+void Array<T>::insert(usize index, usize count, const T value)
+{
+    if (this->data == NULL)
+    {
+        this->reserve(32u);
+    }
+
+    this->insert(this->begin() + index, count, value);
+}
+
+template <typename T>
 void Array<T>::insert(usize index, const T *range_begin, const T *range_end)
 {
     if (this->data == NULL)
@@ -193,6 +216,37 @@ void Array<T>::insert(T *insert_pos, const T value)
 }
 
 template <typename T>
+void Array<T>::insert(T *insert_pos, usize count, const T value)
+{
+    if (this->data == NULL)
+    {
+        this->reserve(32u);
+    }
+
+    assert(insert_pos != NULL);
+    assert(insert_pos >= this->data);
+
+    const usize index = cast(usize, (insert_pos - this->begin()));
+    assert(index <= this->count);
+
+    const usize new_count = this->count + count;
+    if (new_count > this->capacity)
+    {
+        this->reserve_pow2(new_count + 1);
+        insert_pos = this->begin() + index;
+    }
+
+    if (insert_pos != this->end())
+    {
+        memory_copy(insert_pos, this->end(), insert_pos + count);
+    }
+
+    memory_set(insert_pos, count, value);
+
+    this->count = new_count;
+}
+
+template <typename T>
 void Array<T>::insert(T *insert_pos, const T *range_begin, const T *range_end)
 {
     if (this->data == NULL)
@@ -201,16 +255,15 @@ void Array<T>::insert(T *insert_pos, const T *range_begin, const T *range_end)
     }
 
     assert(insert_pos != NULL);
+    assert(insert_pos >= this->data);
+
+    const usize index = cast(usize, (insert_pos - this->begin()));
+    assert(index <= this->count);
+
     assert(range_begin != NULL);
     assert(range_end != NULL);
 
-    const T *begin = this->begin();
-    const T *end = this->end();
-
-    assert(insert_pos >= begin);
-    assert(insert_pos <= end);
-
-    const ssize range_count = range_end - range_begin;
+    const ssize range_count = (range_end - range_begin);
     assert(range_count > 0);
 
     const usize new_count = this->count + cast(usize, range_count);
@@ -218,14 +271,17 @@ void Array<T>::insert(T *insert_pos, const T *range_begin, const T *range_end)
     if (new_count >= this->capacity)
     {
         this->reserve_pow2(new_count + 1);
+        insert_pos = this->begin() + index;
     }
 
-    if (insert_pos != end)
+    if (insert_pos != this->end())
     {
-        memory_copy(insert_pos, end, insert_pos + range_count);
+        memory_copy(insert_pos, this->end(), insert_pos + range_count);
     }
 
     memory_copy(range_begin, range_end, insert_pos);
+
+    this->count = new_count;
 }
 
 template <typename T>
@@ -275,27 +331,13 @@ void Array<T>::clear()
 }
 
 template <typename T>
-const T Array<T>::at(usize index) const
+bool Array<T>::is_empty() const
 {
-    return this[index];
+    return this->count == 0;
 }
 
 template <typename T>
-const T Array<T>::front() const
-{
-    return this->data[0];
-}
-
-template <typename T>
-const T Array<T>::back() const
-{
-    assert(this->count > 0);
-
-    return this[this->count - 1];
-}
-
-template <typename T>
-T &Array<T>::operator[](usize index)
+T Array<T>::at(usize index)
 {
     assert(this->data != NULL);
     assert(this->count > index);
@@ -304,10 +346,77 @@ T &Array<T>::operator[](usize index)
 }
 
 template <typename T>
-const T &Array<T>::operator[](usize index) const
+T Array<T>::front()
+{
+    return this->at(0);
+}
+
+template <typename T>
+T Array<T>::back()
+{
+    assert(this->count > 0);
+
+    return this->at(this->count - 1);
+}
+
+template <typename T>
+const T Array<T>::at(usize index) const
 {
     assert(this->data != NULL);
     assert(this->count > index);
+
+    return this->data[index];
+}
+
+template <typename T>
+const T Array<T>::front() const
+{
+    return this->at(0);
+}
+
+template <typename T>
+const T Array<T>::back() const
+{
+    assert(this->count > 0);
+
+    return this->at(this->count - 1);
+}
+
+// template <typename T>
+// T &Array<T>::operator[](usize index)
+//{
+//    assert(this->data != NULL);
+//    assert(this->count > index);
+//
+//    return this->data[index];
+//}
+//
+// template <typename T>
+// const T &Array<T>::operator[](usize index) const
+//{
+//    assert(this->data != NULL);
+//    assert(this->count > index);
+//
+//    return this->data[index];
+//}
+
+template <typename T>
+T &Array<T>::operator[](ssize index)
+{
+    assert(this->data != NULL);
+
+    assert(index >= 0);
+    assert(this->count > cast(usize, index));
+
+    return this->data[index];
+}
+template <typename T>
+const T &Array<T>::operator[](ssize index) const
+{
+    assert(this->data != NULL);
+
+    assert(index >= 0);
+    assert(this->count > cast(usize, index));
 
     return this->data[index];
 }

@@ -12,7 +12,11 @@ void memory_copy(const TSource *src_begin, const TSource *src_end, TDest *dst)
     assert(src_end != NULL);
     assert(dst != NULL);
 
-    assert(src_end > src_begin);
+    // assert(src_end > src_begin);
+    if (src_end < src_begin)
+    {
+        log_error("(%llu, %llu)\n", src_end, src_begin);
+    }
 
     TSource *dst_begin = reinterpret_cast<TSource *>(dst);
     TSource *dst_end = dst + (src_end - src_begin);
@@ -36,6 +40,20 @@ void memory_copy(const TSource *src_begin, const TSource *src_end, TDest *dst)
     else
     {
         log_error("Destination range is contained by source range.");
+    }
+}
+
+template <typename TDest>
+void memory_set(TDest *dst, usize count, const TDest value)
+{
+    assert(dst != NULL);
+
+    if (count > 0)
+    {
+        while (count--)
+        {
+            *(dst++) = value;
+        }
     }
 }
 

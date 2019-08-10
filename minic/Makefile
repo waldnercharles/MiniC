@@ -25,6 +25,7 @@ CFLAGS = \
 	-Wall -Wextra -Wpedantic -Weverything -Werror \
 	-Wno-language-extension-token -Wno-gnu-zero-variadic-macro-arguments -Wno-c++98-compat -Wno-c++98-compat-pedantic \
 	-Wno-shadow-field-in-constructor -Wno-shadow \
+	-Wno-gnu-anonymous-struct -Wno-assume \
 	-ferror-limit=256 \
 	$(INCLUDES) $(IGNORED_WARNINGS) \
 	-Xclang -std=c++17

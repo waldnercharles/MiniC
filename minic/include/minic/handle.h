@@ -3,28 +3,24 @@
 #include "minic/allocator.h"
 #include "minic/int.h"
 
-typedef struct HandleManager HandleManager;
+union Handle
+{
+public:
+    Handle();
+    Handle(u64 raw);
+    Handle(u32 index, u32 generation);
 
-overload void
-handle_init(HandleManager *manager, Allocator *allocator, u32 capacity);
+    u64 get_id() const;
+    u32 get_index() const;
+    u32 get_generation() const;
 
-overload void
-handle_init(HandleManager *manager, Allocator *allocator);
+private:
+    struct
+    {
+        u32 index;
+        u32 generation;
+    };
+    u64 id;
 
-void
-handle_free(HandleManager *manager);
-
-u32
-handle_create(HandleManager *manager, u32 key);
-
-void
-handle_dispose(HandleManager *manager, u32 handle);
-
-inline u64
-handle_get(HandleManager *manager, u32 handle_index);
-
-inline u32
-handle_key(HandleManager *manager, u32 handle_index);
-
-inline u32
-handle_generation(HandleManager *manager, u32 handle_index);
+    friend struct HandleManager;
+};

@@ -28,7 +28,7 @@
 //}
 //
 template <typename T>
-T *memory_realloc(Allocator *allocator, usize count)
+T *memory_alloc(Allocator *allocator, usize count)
 {
     assert(allocator != NULL);
     return cast(T *, allocator->alloc(sizeof(T) * count));

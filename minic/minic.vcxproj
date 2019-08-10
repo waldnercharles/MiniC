@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\minic\handlemanager.cpp" />
     <ClCompile Include="src\minic\allocator.cpp" />
     <ClCompile Include="src\minic\asset.cpp" />
     <ClCompile Include="src\minic\handle.cpp" />
@@ -61,6 +62,7 @@
     <ClInclude Include="include\minic\rand.h" />
     <ClInclude Include="include\minic\string.h" />
     <ClInclude Include="include\minic\timer.h" />
+    <ClInclude Include="include\minic\handlemanager.h" />
     <ClInclude Include="src\minic\win32_timer.cpp" />
     <ClInclude Include="third_party\include\win32\atomic.h" />
     <ClInclude Include="third_party\include\win32\dbghelp.h" />

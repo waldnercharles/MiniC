@@ -1,8 +1,11 @@
 #pragma once
 #include "minic/int.h"
 
-template <typename T, typename TDest>
-void memory_copy(const T *src_begin, const T *src_end, TDest *dst_begin);
+template <typename TSource, typename TDest>
+void memory_copy(const TSource *src_begin, const TSource *src_end, TDest *dst);
+
+template <typename TDest>
+void memory_set(TDest *dst, usize count, const TDest value);
 
 void *mem_copy(void *dest, const void *source, usize length);
 

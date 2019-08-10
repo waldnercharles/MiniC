@@ -3,6 +3,7 @@
 #include "minic/allocator_default.h"
 #include "minic/assert.h"
 #include "minic/int.h"
+#include "minic/log.h"
 
 CAllocator::CAllocator()
 {
@@ -24,15 +25,25 @@ void *CAllocator::realloc(void *address, usize bytes)
     assert(this->handle != NULL);
     assert(bytes > 0);
 
-    return address == NULL
-               ? HeapAlloc(this->handle, HEAP_ZERO_MEMORY, bytes)
-               : HeapReAlloc(this->handle, HEAP_ZERO_MEMORY, address, bytes);
+    if (address == NULL)
+    {
+        return HeapAlloc(this->handle, HEAP_ZERO_MEMORY, bytes);
+    }
+    else
+    {
+        return HeapReAlloc(this->handle, HEAP_ZERO_MEMORY, address, bytes);
+    }
 }
 
 void CAllocator::free(void *address)
 {
     assert(this->handle != NULL);
-    assert(address != NULL);
-
-    HeapFree(this->handle, 0, address);
+    if (address != NULL)
+    {
+        HeapFree(this->handle, 0, address);
+    }
+    else
+    {
+        log_debug("Attempted to free NULL memory.");
+    }
 }

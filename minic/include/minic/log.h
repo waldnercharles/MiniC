@@ -13,8 +13,7 @@
 #define log_level log_level_debug
 #endif
 
-void *
-log_handle(void);
+void *log_handle(void);
 
 #define log(message, tag, ...)                                                 \
     io_printf_handle("[%s] (%s:%d): " message "\r\n",                          \
