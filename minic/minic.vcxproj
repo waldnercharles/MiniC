@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\minic\handlemanager.cpp" />
     <ClCompile Include="src\minic\allocator.cpp" />
     <ClCompile Include="src\minic\asset.cpp" />
     <ClCompile Include="src\minic\handle.cpp" />
@@ -47,10 +46,8 @@
     <ClInclude Include="include\minic\array.h" />
     <ClInclude Include="include\minic\assert.h" />
     <ClInclude Include="include\minic\asset.h" />
-    <ClInclude Include="include\minic\dynamicarray.h" />
     <ClInclude Include="include\minic\file.h" />
     <ClInclude Include="include\minic\fp.h" />
-    <ClInclude Include="include\minic\generic_array.h" />
     <ClInclude Include="include\minic\handle.h" />
     <ClInclude Include="include\minic\hashtable.h" />
     <ClInclude Include="include\minic\int.h" />
@@ -62,7 +59,6 @@
     <ClInclude Include="include\minic\rand.h" />
     <ClInclude Include="include\minic\string.h" />
     <ClInclude Include="include\minic\timer.h" />
-    <ClInclude Include="include\minic\handlemanager.h" />
     <ClInclude Include="src\minic\win32_timer.cpp" />
     <ClInclude Include="third_party\include\win32\atomic.h" />
     <ClInclude Include="third_party\include\win32\dbghelp.h" />

@@ -1,6 +1,7 @@
 #include "minic/allocator_default.h"
 #include "minic/array.h"
 #include "minic/handle.h"
+#include "minic/handlemanager.h"
 #include "minic/int.h"
 #include "minic/io.h"
 //#include "minic/asset.h"
@@ -57,15 +58,15 @@ s32 main()
 {
     CAllocator allocator;
 
-    HandleManager handle_manager(&allocator);
-    Array<Handle> handles(&allocator);
+    HandleManager handle_manager;
+    handle_manager_init(&handle_manager, &allocator);
+
+    Array<Handle> handles;
     for (int i = 0; i < 1000; i++)
     {
-        handles.push_back(handle_manager.create());
+        array_push_back(&handles, handle_create(&handle_manager));
 
-        io_printf("(%i, %i)\n",
-                  handles[i].get_index(),
-                  handles[i].get_generation());
+        io_printf("(%i, %i)\n", handles[i].index, handles[i].generation);
     }
 
     return 0;
