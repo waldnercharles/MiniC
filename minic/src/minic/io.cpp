@@ -14,8 +14,7 @@
 #define FLAGS_LONG_LONG 64u
 #define FLAGS_NEGATIVE 128u
 
-typedef char *
-io_write_fn(char *buf, void *udata, usize len);
+typedef char *io_write_fn(char *buf, void *udata, usize len);
 
 struct io_vsnprintf_context
 {
@@ -49,8 +48,7 @@ struct io_specifier_context
     usize str_len, pre_len, post_len;
 };
 
-static void
-io_write(struct io_write_context *p, usize nbytes)
+static void io_write(struct io_write_context *p, usize nbytes)
 {
     if (p->out)
     {
@@ -64,14 +62,13 @@ io_write(struct io_write_context *p, usize nbytes)
     }
 }
 
-static void
-io_flush(struct io_write_context *p)
+static void io_flush(struct io_write_context *p)
 {
     io_write(p, 512 - 1);
 }
 
-static const char *
-io_write_until_next_specifier(const char *fmt, struct io_write_context *p)
+static const char *io_write_until_next_specifier(const char *fmt,
+                                                 struct io_write_context *p)
 {
     ReadOnlyRawBuffer buf;
     buf.str = fmt;
@@ -119,8 +116,7 @@ io_write_until_next_specifier(const char *fmt, struct io_write_context *p)
     }
 }
 
-static const char *
-io_parse_flags(const char *fmt, u32 *flags)
+static const char *io_parse_flags(const char *fmt, u32 *flags)
 {
     *flags = 0;
     for (;;)
@@ -139,8 +135,7 @@ io_parse_flags(const char *fmt, u32 *flags)
     }
 }
 
-static const char *
-io_parse_width(const char *fmt, usize *width, va_list *va)
+static const char *io_parse_width(const char *fmt, usize *width, va_list *va)
 {
     *width = 0;
     if (*fmt == '*')
@@ -160,8 +155,9 @@ io_parse_width(const char *fmt, usize *width, va_list *va)
     return fmt;
 }
 
-static const char *
-io_parse_precision(const char *fmt, usize *precision, va_list *va)
+static const char *io_parse_precision(const char *fmt,
+                                      usize *precision,
+                                      va_list *va)
 {
     if (*fmt == '.')
     {
@@ -190,8 +186,7 @@ io_parse_precision(const char *fmt, usize *precision, va_list *va)
     return fmt;
 }
 
-static const char *
-io_parse_int_length(const char *fmt, u32 *flags)
+static const char *io_parse_int_length(const char *fmt, u32 *flags)
 {
     switch (*fmt)
     {
@@ -248,8 +243,7 @@ io_parse_int_length(const char *fmt, u32 *flags)
     return fmt;
 }
 
-static usize
-io_strlen_clamp(char *str, usize clamp_to)
+static usize io_strlen_clamp(char *str, usize clamp_to)
 {
     usize len;
     RawBuffer buf;
@@ -289,8 +283,8 @@ io_strlen_clamp(char *str, usize clamp_to)
     goto null_check;
 }
 
-static void
-io_write_to_context(struct io_specifier_context *s, struct io_write_context *w)
+static void io_write_to_context(struct io_specifier_context *s,
+                                struct io_write_context *w)
 {
     RawBuffer str_buf;
     str_buf.str = s->str;
@@ -360,8 +354,10 @@ io_write_to_context(struct io_specifier_context *s, struct io_write_context *w)
     // TODO: Handle left-justify
 }
 
-static void
-io_parse_base2(struct io_specifier_context *s, u32 pow, char *hex, va_list *va)
+static void io_parse_base2(struct io_specifier_context *s,
+                           u32 pow,
+                           char *hex,
+                           va_list *va)
 {
     u64 num;
     if (s->flags & FLAGS_LONG_LONG)
@@ -388,8 +384,7 @@ io_parse_base2(struct io_specifier_context *s, u32 pow, char *hex, va_list *va)
     s->str_len = cast(u32, (s->tmp + 512) - s->str);
 }
 
-static void
-io_parse_string(struct io_specifier_context *s, va_list *va)
+static void io_parse_string(struct io_specifier_context *s, va_list *va)
 {
     s->str = va_arg(*va, char *);
     if (s->str == NULL)
@@ -400,8 +395,7 @@ io_parse_string(struct io_specifier_context *s, va_list *va)
     s->str_len = io_strlen_clamp(s->str, s->precision);
 }
 
-static inline void
-io_parse_char(struct io_specifier_context *s, va_list *va)
+static inline void io_parse_char(struct io_specifier_context *s, va_list *va)
 {
     s->tmp[0] = cast(char, va_arg(*va, u32));
     s->tmp[1] = 0;
@@ -410,8 +404,7 @@ io_parse_char(struct io_specifier_context *s, va_list *va)
     s->str_len = 1;
 }
 
-static inline void
-io_parse_sign(struct io_specifier_context *s)
+static inline void io_parse_sign(struct io_specifier_context *s)
 {
     s->pre_len = 0;
     if (s->flags & FLAGS_NEGATIVE)
@@ -431,8 +424,7 @@ io_parse_sign(struct io_specifier_context *s)
     }
 }
 
-static inline void
-io_parse_base10(struct io_specifier_context *s, va_list *va)
+static inline void io_parse_base10(struct io_specifier_context *s, va_list *va)
 {
     u64 num;
 
@@ -514,8 +506,7 @@ io_parse_base10(struct io_specifier_context *s, va_list *va)
     }
 }
 
-static inline void
-io_parse_float(struct io_specifier_context *s, va_list *va)
+static inline void io_parse_float(struct io_specifier_context *s, va_list *va)
 {
     r64 value = va_arg(*va, r64);
 
@@ -569,7 +560,7 @@ io_parse_float(struct io_specifier_context *s, va_list *va)
 
         assert(length > 0);
         assert(length >= kk);
-        mem_move(&s->tmp[kk + 1], &s->tmp[kk], cast(usize, length - kk));
+        memory_move(&s->tmp[kk + 1], &s->tmp[kk], cast(usize, length - kk));
 
         s->tmp[kk] = '.';
         s->tmp[length + 1] = '\0';
@@ -582,7 +573,7 @@ io_parse_float(struct io_specifier_context *s, va_list *va)
         const ssize offset = 2 - kk;
 
         assert(length > 0);
-        mem_move(&s->tmp[offset], &s->tmp[0], cast(usize, length));
+        memory_move(&s->tmp[offset], &s->tmp[0], cast(usize, length));
 
         s->tmp[0] = '0';
         s->tmp[1] = '.';
@@ -611,7 +602,7 @@ io_parse_float(struct io_specifier_context *s, va_list *va)
         {
             /* 1234e30 -> 1.234e33 */
             assert(length > 0);
-            mem_move(&s->tmp[2], &s->tmp[1], cast(usize, length - 1));
+            memory_move(&s->tmp[2], &s->tmp[1], cast(usize, length - 1));
 
             e_buffer = &s->tmp[length + 2];
 
@@ -680,8 +671,7 @@ io_parse_float(struct io_specifier_context *s, va_list *va)
     s->str_len = cast(usize, length);
 }
 
-static inline void
-io_parse_default(struct io_specifier_context *s)
+static inline void io_parse_default(struct io_specifier_context *s)
 {
     s->tmp[0] = '%';
     s->tmp[1] = s->specifier;
@@ -691,8 +681,9 @@ io_parse_default(struct io_specifier_context *s)
     s->str_len = 2;
 }
 
-static const char *
-io_write_specifier(const char *fmt, struct io_write_context *w, va_list *va)
+static const char *io_write_specifier(const char *fmt,
+                                      struct io_write_context *w,
+                                      va_list *va)
 {
     struct io_specifier_context s = {};
 
@@ -792,12 +783,11 @@ io_write_specifier(const char *fmt, struct io_write_context *w, va_list *va)
     return fmt + 1;
 }
 
-static usize
-io_vsprintf_cb(io_write_fn *out,
-               void *udata,
-               char *buf,
-               const char *fmt,
-               va_list va)
+static usize io_vsprintf_cb(io_write_fn *out,
+                            void *udata,
+                            char *buf,
+                            const char *fmt,
+                            va_list va)
 {
     struct io_write_context w;
     w.out = out;
@@ -835,8 +825,7 @@ endfmt:
     return w.bytes_written + cast(usize, w.head.str - w.tail.str);
 }
 
-static char *
-io_vsnprintf_write(char *buf, void *udata, usize len)
+static char *io_vsnprintf_write(char *buf, void *udata, usize len)
 {
     struct io_vsnprintf_context *p = static_cast<io_vsnprintf_context *>(udata);
 
@@ -874,8 +863,7 @@ io_vsnprintf_write(char *buf, void *udata, usize len)
     return p->cap >= 512 ? p->buf : p->tmp;
 }
 
-static char *
-io_vsnprintf_count(char *buf, void *udata, usize len)
+static char *io_vsnprintf_count(char *buf, void *udata, usize len)
 {
     cast(void, buf);
 
@@ -886,8 +874,7 @@ io_vsnprintf_count(char *buf, void *udata, usize len)
     return p->tmp;
 }
 
-usize
-io_vsnprintf(char *buf, usize capacity, const char *fmt, va_list va)
+usize io_vsnprintf(char *buf, usize capacity, const char *fmt, va_list va)
 {
     struct io_vsnprintf_context p;
     usize len;
@@ -923,8 +910,7 @@ io_vsnprintf(char *buf, usize capacity, const char *fmt, va_list va)
     return len;
 }
 
-usize
-io_vsprintf(char *buf, const char *fmt, va_list va)
+usize io_vsprintf(char *buf, const char *fmt, va_list va)
 {
     struct io_write_context p;
 
@@ -936,8 +922,7 @@ io_vsprintf(char *buf, const char *fmt, va_list va)
     return io_vsprintf_cb(NULL, NULL, buf, fmt, va);
 }
 
-usize
-io_snprintf(char *buf, usize capacity, const char *fmt, ...)
+usize io_snprintf(char *buf, usize capacity, const char *fmt, ...)
 {
     usize result;
     va_list va;
@@ -949,8 +934,7 @@ io_snprintf(char *buf, usize capacity, const char *fmt, ...)
     return result;
 }
 
-usize
-io_sprintf(char *buf, const char *fmt, ...)
+usize io_sprintf(char *buf, const char *fmt, ...)
 {
     usize result;
     va_list va;
@@ -962,11 +946,9 @@ io_sprintf(char *buf, const char *fmt, ...)
     return result;
 }
 
-char *
-io_write_tmp(char *buf, void *udata, usize len);
+char *io_write_tmp(char *buf, void *udata, usize len);
 
-usize
-io_printf_handle(const char *fmt, void *handle, ...)
+usize io_printf_handle(const char *fmt, void *handle, ...)
 {
     usize result;
     va_list va;
@@ -980,8 +962,7 @@ io_printf_handle(const char *fmt, void *handle, ...)
     return result;
 }
 
-usize
-io_printf(const char *fmt, ...)
+usize io_printf(const char *fmt, ...)
 {
     usize result;
     va_list va;

@@ -5,45 +5,74 @@
 #include "minic/int.h"
 #include "minic/log.h"
 
-CAllocator::CAllocator()
+struct CAllocator
 {
-    this->handle = GetProcessHeap();
+    HANDLE handle;
+};
 
-    assert(this->handle != NULL);
-}
-
-void *CAllocator::alloc(usize bytes)
+static void *c_allocator_alloc(void *internal_allocator, usize bytes)
 {
-    assert(this->handle != NULL);
+    CAllocator *allocator = cast(CAllocator *, internal_allocator);
+
+    assert(allocator != NULL);
+    assert(allocator->handle != NULL);
+
     assert(bytes > 0);
 
-    return HeapAlloc(this->handle, HEAP_ZERO_MEMORY, bytes);
+    return HeapAlloc(allocator->handle, HEAP_ZERO_MEMORY, bytes);
 }
 
-void *CAllocator::realloc(void *address, usize bytes)
+static void *c_allocator_realloc(void *internal_allocator,
+                                 void *address,
+                                 usize bytes)
 {
-    assert(this->handle != NULL);
+    CAllocator *allocator = cast(CAllocator *, internal_allocator);
+
+    assert(allocator != NULL);
+    assert(allocator->handle != NULL);
+
     assert(bytes > 0);
 
     if (address == NULL)
     {
-        return HeapAlloc(this->handle, HEAP_ZERO_MEMORY, bytes);
+        return HeapAlloc(allocator->handle, HEAP_ZERO_MEMORY, bytes);
     }
     else
     {
-        return HeapReAlloc(this->handle, HEAP_ZERO_MEMORY, address, bytes);
+        return HeapReAlloc(allocator->handle, HEAP_ZERO_MEMORY, address, bytes);
     }
 }
 
-void CAllocator::free(void *address)
+static void c_allocator_free(void *internal_allocator, void *address)
 {
-    assert(this->handle != NULL);
+    CAllocator *allocator = cast(CAllocator *, internal_allocator);
+    assert(allocator != NULL);
+    assert(allocator->handle != NULL);
+
     if (address != NULL)
     {
-        HeapFree(this->handle, 0, address);
+        HeapFree(allocator->handle, 0, address);
     }
     else
     {
         log_debug("Attempted to free NULL memory.");
     }
+}
+
+void c_allocator_init(Allocator *allocator)
+{
+    assert(allocator != NULL);
+
+    HANDLE handle = GetProcessHeap();
+    assert(handle != NULL);
+
+    CAllocator *self =
+        cast(CAllocator *,
+             HeapAlloc(handle, HEAP_ZERO_MEMORY, sizeof(CAllocator)));
+
+    allocator_init(allocator,
+                   self,
+                   c_allocator_alloc,
+                   c_allocator_realloc,
+                   c_allocator_free);
 }

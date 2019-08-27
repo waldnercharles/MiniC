@@ -10,7 +10,6 @@
 #include "minic/fp.cpp"
 //#include "minic/hashtable.c"
 #include "minic/handle.cpp"
-#include "minic/handlemanager.cpp"
 #include "minic/io.cpp"
 #include "minic/math.cpp"
 #include "minic/memory.cpp"
@@ -24,5 +23,9 @@
 #include "minic/win32_io.cpp"
 #include "minic/win32_log.cpp"
 #include "minic/win32_timer.cpp"
+#include "minic/window.cpp"
+
+extern "C" __stdcall void *memset(void *dst, int val, size_t size);
+extern "C" __stdcall int mainCRTStartup();
 
 #include "main.cpp"

@@ -57,7 +57,7 @@ void memory_set(TDest *dst, usize count, const TDest value)
     }
 }
 
-void *mem_copy(void *dst, const void *src, usize length)
+void *memory_copy(void *dst, const void *src, usize length)
 {
     assert(dst != NULL);
     assert(src != NULL);
@@ -73,7 +73,7 @@ void *mem_copy(void *dst, const void *src, usize length)
     return dst;
 }
 
-void *mem_move(void *dst, const void *src, usize length)
+void *memory_move(void *dst, const void *src, usize length)
 {
     assert(dst != NULL);
     assert(src != NULL);
@@ -104,7 +104,7 @@ void *mem_move(void *dst, const void *src, usize length)
     return dst;
 }
 
-void *mem_set(void *dst, u8 value, usize length)
+void *memory_set(void *dst, u8 value, usize length)
 {
     assert(dst != NULL);
 
@@ -117,7 +117,7 @@ void *mem_set(void *dst, u8 value, usize length)
     return dst;
 }
 
-s32 mem_compare(const void *lhs, const void *rhs, usize length)
+s32 memory_compare(const void *lhs, const void *rhs, usize length)
 {
     assert(lhs != NULL);
     assert(rhs != NULL);

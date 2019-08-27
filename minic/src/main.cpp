@@ -1,9 +1,12 @@
 #include "minic/allocator_default.h"
 #include "minic/array.h"
 #include "minic/handle.h"
-#include "minic/handlemanager.h"
 #include "minic/int.h"
 #include "minic/io.h"
+#include "minic/memory.h"
+#include "minic/win32_platform.h"
+#include "minic/window.h"
+
 //#include "minic/asset.h"
 //#include "minic/file.h"
 //#include "minic/handle.h"
@@ -54,20 +57,36 @@ struct Banana
 // array_define(u64, Array_u64);
 // array_define(void *, Array);
 
-s32 main()
+extern "C" __stdcall void *memset(void *dst, int val, size_t size)
 {
-    CAllocator allocator;
+    return memory_set(dst, cast(u8, val), size);
+}
 
-    HandleManager handle_manager;
+extern "C" __stdcall int mainCRTStartup()
+{
+    Allocator allocator;
+    c_allocator_init(&allocator);
+
+    HandleManager handle_manager = {};
     handle_manager_init(&handle_manager, &allocator);
 
-    Array<Handle> handles;
+    Array<Handle> handles = {};
+    array_init(&handles, &allocator);
+
     for (int i = 0; i < 1000; i++)
     {
         array_push_back(&handles, handle_create(&handle_manager));
 
         io_printf("(%i, %i)\n", handles[i].index, handles[i].generation);
     }
+
+    platform_init();
+
+    Window window = {};
+
+    window_init(&window, "Hello World!");
+    window_create(&window);
+    window_show(&window);
 
     return 0;
 }
