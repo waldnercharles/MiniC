@@ -22,7 +22,7 @@ CFLAGS = \
 	-analyze- \
 	-nologo \
 	-Od -Oi -GR- -GS- -EHa- -Zi -Zo -Zc:inline -fp:fast -fp:except- \
-	-Wall -Wextra -Wpedantic -Weverything -Werror \
+	-Wall -Wextra -Wpedantic -Weverything -Werror -Wuninitialized \
 	-Wno-language-extension-token -Wno-gnu-zero-variadic-macro-arguments -Wno-c++98-compat -Wno-c++98-compat-pedantic \
 	-Wno-shadow-field-in-constructor -Wno-shadow \
 	-Wno-gnu-anonymous-struct -Wno-assume \
@@ -36,14 +36,17 @@ LFLAGS = \
 	-subsystem:console \
 	-opt:ref \
 	-incremental:no \
-	-libpath:"$(VC_PATH)\lib\x64" \
-	-libpath:"$(WINSDK_PATH)\lib\$(WINSDK_VERSION)\ucrt\x64" \
-	-libpath:"$(WINSDK_PATH)\lib\$(WINSDK_VERSION)\um\x64" \
-	-libpath:"third_party\lib\x64" \
-	libucrt.lib libvcruntime.lib libcmt.lib libcpmt.lib \
-	legacy_stdio_definitions.lib oldnames.lib \
-	legacy_stdio_wide_specifiers.lib \
-	kernel32.lib User32.lib
+	user32.lib gdi32.lib winmm.lib kernel32.lib
+
+	#-libpath:"$(VC_PATH)\lib\x64"
+	#-libpath:"$(WINSDK_PATH)\lib\$(WINSDK_VERSION)\ucrt\x64"
+	#-libpath:"$(WINSDK_PATH)\lib\$(WINSDK_VERSION)\um\x64"
+	#-libpath:"third_party\lib\x64"
+
+	# libucrt.lib libvcruntime.lib libcmt.lib libcpmt.lib
+	# legacy_stdio_definitions.lib oldnames.lib
+	# legacy_stdio_wide_specifiers.lib
+	# kernel32.lib User32.lib
 
 main: src\unity_build.cpp
 	$(CC) $(CFLAGS) src\unity_build.cpp -Fobin\unity_build.obj -Fdbin\main.pdb -Febin\main.exe -link $(LFLAGS)
