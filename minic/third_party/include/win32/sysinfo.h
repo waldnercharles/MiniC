@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Copyright (c) Arvid Gerstmann. All rights reserved.
- */
 #ifndef _WINDOWS_
 #ifndef WINDOWS_SYSINFO_H
 #define WINDOWS_SYSINFO_H
@@ -365,8 +361,9 @@ ULONGLONG WINAPI VerSetConditionMask(ULONGLONG ConditionMask,
                                      DWORD TypeMask,
                                      BYTE Condition);
 
-FORCEINLINE BOOL
-IsWindowsVersionOrGreater(WORD major, WORD minor, WORD servpack)
+FORCEINLINE BOOL IsWindowsVersionOrGreater(WORD major,
+                                           WORD minor,
+                                           WORD servpack)
 {
     OSVERSIONINFOEXW vi = { sizeof(vi), major, minor, 0, 0, { 0 }, servpack };
     return VerifyVersionInfoW(
@@ -382,8 +379,7 @@ IsWindowsVersionOrGreater(WORD major, WORD minor, WORD servpack)
             VER_GREATER_EQUAL));
 }
 
-FORCEINLINE BOOL
-IsWindowsVersionOrLess(WORD major, WORD minor, WORD servpack)
+FORCEINLINE BOOL IsWindowsVersionOrLess(WORD major, WORD minor, WORD servpack)
 {
     OSVERSIONINFOEXW vi = { sizeof(vi), major, minor, 0, 0, { 0 }, servpack };
     return VerifyVersionInfoW(
@@ -400,8 +396,9 @@ IsWindowsVersionOrLess(WORD major, WORD minor, WORD servpack)
 }
 
 #define GREATER IsWindowsVersionOrGreater
-FORCEINLINE void
-GetWindowsVersionCUSTOM(PWORD major, PWORD minor, PWORD srvpack)
+FORCEINLINE void GetWindowsVersionCUSTOM(PWORD major,
+                                         PWORD minor,
+                                         PWORD srvpack)
 {
     if (GREATER(HIBYTE(_WIN32_WINNT_WIN10), LOBYTE(_WIN32_WINNT_WIN10), 0))
     {

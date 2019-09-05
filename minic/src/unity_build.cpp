@@ -1,4 +1,12 @@
 #define DEBUG
+
+//#define __STDDEF_H
+//#define NULL nullptr
+
+#define UNICODE
+//#define NOMINMAX
+//#define WIN32_LEAN_AND_MEAN
+//#include <Windows.h>
 //#include "minic/assert.h"
 
 //#include "minic/iterator.cpp"
@@ -25,7 +33,7 @@
 #include "minic/win32_timer.cpp"
 #include "minic/window.cpp"
 
-extern "C" __stdcall void *memset(void *dst, int val, size_t size);
-extern "C" __stdcall int mainCRTStartup();
+extern "C" void *__stdcall memset(void *dst, int val, size_t size);
+extern "C" int __stdcall mainCRTStartup();
 
 #include "main.cpp"

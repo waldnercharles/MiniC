@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Copyright (c) Arvid Gerstmann. All rights reserved.
- */
 #ifndef _WINDOWS_
 #ifndef WINDOWS_DBGHELP_H
 #define WINDOWS_DBGHELP_H
@@ -863,8 +859,7 @@ unsigned long __readfsdword(unsigned long Offset);
 unsigned __int64 __readfsqword(unsigned long Offset);
 #endif
 
-static NT_TIB *
-GetTib(void)
+static NT_TIB *GetTib(void)
 {
 #if _WIN64
     return (NT_TIB *)__readgsqword(0x30);

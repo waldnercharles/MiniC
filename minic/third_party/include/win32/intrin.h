@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Copyright (c) Arvid Gerstmann. All rights reserved.
- */
 #ifndef _WINDOWS_
 #ifndef WINDOWS_INTRIN_H
 #define WINDOWS_INTRIN_H

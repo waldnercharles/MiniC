@@ -17,13 +17,11 @@ struct Win32Window
 
 struct Window
 {
-    const char *title;
+    const wchar *title;
     Win32Window win32;
 };
 
-void platform_init();
-
-void window_init(Window *window, const char *title);
+void window_init(Window *window, const wchar *title);
 void window_create(Window *window);
 
 void window_show(Window *window);

@@ -19,31 +19,50 @@
 
 #ifdef __cplusplus
 #define NULL nullptr
+
 #define cast(T, V) (static_cast<T>(V))
+#define unsafe_cast(T, V) (reinterpret_cast<T>(V))
 #else
 #define NULL cast(void *, 0)
 #define cast(T, V) ((T)(V))
+#define unsafe_cast cast
 #endif
 
 #include <vadefs.h>
 
 #define va_start __crt_va_start
-#define va_arg __crt_va_arg
 #define va_end __crt_va_end
-#define va_copy(destination, source) ((destination) = (source))
+#define va_arg __crt_va_arg
+
+#if defined(__GNU_C__) || defined(__clang__)
+#ifdef _crt_va_start
+#undef _crt_va_start
+#define _crt_va_start(ap, param) __builtin_va_start(ap, param)
+#endif
+#ifdef _crt_va_end
+#undef _crt_va_end
+#define _crt_va_end(ap) __builtin_va_end(ap)
+#endif
+#ifdef _crt_va_arg
+#undef _crt_va_arg
+#define _crt_va_arg(ap, type) __builtin_va_arg(ap, type)
+#endif
+
+#ifdef __crt_va_start
+#undef __crt_va_start
+#define __crt_va_start(ap, param) __builtin_va_start(ap, param)
+#endif
+#ifdef __crt_va_end
+#undef __crt_va_end
+#define __crt_va_end(ap) __builtin_va_end(ap)
+#endif
+#ifdef __crt_va_arg
+#undef __crt_va_arg
+#define __crt_va_arg(ap, type) __builtin_va_arg(ap, type)
+#endif
+#endif
 
 /* clang-format off */
-/* 1300 == VC 6.0 */
-#if defined(_MSC_VER) && _MSC_VER >= 1300
-typedef signed __int8       s8;
-typedef unsigned __int8     u8;
-typedef signed __int16      s16;
-typedef unsigned __int16    u16;
-typedef signed __int32      s32;
-typedef unsigned __int32    u32;
-typedef signed __int64      s64;
-typedef unsigned __int64    u64;
-#else
 typedef signed char         s8;
 typedef unsigned char       u8;
 typedef signed short        s16;
@@ -52,7 +71,8 @@ typedef signed int          s32;
 typedef unsigned int        u32;
 typedef signed long long    s64;
 typedef unsigned long long  u64;
-#endif
+
+typedef	wchar_t				wchar;
 
 typedef float               r32;
 typedef double              r64;

@@ -2,10 +2,12 @@
 #include "minic/assert.h"
 #include "minic/log.h"
 
+//#include <Windows.h>
 #include "win32/windows_base.h"
 #include "win32/gdi.h"
 #include "win32/misc.h"
 #include "win32/sysinfo.h"
+#include "win32/winuser.h"
 
 struct Platform
 {
@@ -22,6 +24,8 @@ struct Platform
         } user32;
     } win32;
 };
+
+void platform_init(Platform *platform);
 
 static LRESULT CALLBACK window_message_proc(HWND hwnd,
                                             UINT umsg,
@@ -48,50 +52,48 @@ static LRESULT CALLBACK window_message_proc(HWND hwnd,
 
 static void platform_register_window_class(Platform *platform)
 {
+    (void)platform;
+
     WNDCLASSEXW wc = {};
 
     wc.cbSize = sizeof(wc);
     wc.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc = cast(WNDPROC, window_message_proc);
     wc.hInstance = GetModuleHandleW(NULL);
-    wc.hCursor = LoadCursorW(0, IDC_ARROW);
+    wc.hCursor = LoadCursorW(NULL, unsafe_cast(LPCWSTR, IDC_ARROW));
     wc.lpszClassName = L"MINIC";
 
-    wc.hIcon = LoadImageW(wc.hInstance,
-                          L"MINIC_ICON",
-                          IMAGE_ICON,
-                          0,
-                          0,
-                          LR_DEFAULTSIZE | LR_SHARED);
+    wc.hIcon = cast(HICON,
+                    LoadImageW(wc.hInstance,
+                               L"MINIC_ICON",
+                               IMAGE_ICON,
+                               0,
+                               0,
+                               LR_DEFAULTSIZE | LR_SHARED));
     if (wc.hIcon == NULL)
     {
-        wc.hIcon = LoadImageW(NULL,
-                              IDI_APPLICATION,
-                              IMAGE_ICON,
-                              0,
-                              0,
-                              LR_DEFAULTSIZE | LR_SHARED)
+        wc.hIcon = cast(HICON,
+                        LoadImageW(NULL,
+                                   unsafe_cast(LPCWSTR, IDI_APPLICATION),
+                                   IMAGE_ICON,
+                                   0,
+                                   0,
+                                   LR_DEFAULTSIZE | LR_SHARED));
     }
 
     bool registered = RegisterClassExW(&wc);
     assert(registered == true);
 }
 
-void platform_init(Platform *platform)
+static BOOL platform_is_windows10_build_or_greater(WORD build)
 {
-    assert(platform != NULL);
+    OSVERSIONINFOEXW osvi = {};
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+    osvi.dwMajorVersion = 10;
+    osvi.dwMinorVersion = 0;
+    osvi.dwBuildNumber = build;
 
-    platform->win32.user32.handle = LoadLibraryA("User32.lib");
-    assert(platform->win32.user32.handle != NULL);
-
-    platform_register_window_class(platform);
-}
-
-BOOL platform_is_windows10_build_or_greater(WORD build)
-{
-    OSVERSIONINFOEXW osvi = { sizeof(osvi), 10, 0, build };
-
-    DWORD mask = VER_MAJORVERSION | VER_MINORVERSION | VER_BUILDNUMBER;
+    // DWORD mask = VER_MAJORVERSION | VER_MINORVERSION | VER_BUILDNUMBER;
 
     ULONGLONG cond = 0;
 
@@ -105,4 +107,16 @@ BOOL platform_is_windows10_build_or_greater(WORD build)
 
     return false;
     // return RtlVerifyVersionInfo()
+}
+
+void platform_init(Platform *platform)
+{
+    assert(platform != NULL);
+
+    platform->win32.user32.handle = LoadLibraryA("User32.dll");
+    assert(platform->win32.user32.handle != NULL);
+
+    platform_register_window_class(platform);
+
+    platform_is_windows10_build_or_greater(0);
 }

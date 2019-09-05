@@ -57,14 +57,14 @@ struct Banana
 // array_define(u64, Array_u64);
 // array_define(void *, Array);
 
-extern "C" __stdcall void *memset(void *dst, int val, size_t size)
+extern "C" void __stdcall *memset(void *dst, int val, size_t size)
 {
     return memory_set(dst, cast(u8, val), size);
 }
 
-extern "C" __stdcall int mainCRTStartup()
+extern "C" int __stdcall mainCRTStartup()
 {
-    Allocator allocator;
+    Allocator allocator = {};
     c_allocator_init(&allocator);
 
     HandleManager handle_manager = {};
@@ -80,11 +80,13 @@ extern "C" __stdcall int mainCRTStartup()
         io_printf("(%i, %i)\n", handles[i].index, handles[i].generation);
     }
 
-    platform_init();
+    Platform platform = {};
+
+    platform_init(&platform);
 
     Window window = {};
 
-    window_init(&window, "Hello World!");
+    window_init(&window, L"Hello World!");
     window_create(&window);
     window_show(&window);
 

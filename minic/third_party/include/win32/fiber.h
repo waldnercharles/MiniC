@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Copyright (c) Arvid Gerstmann. All rights reserved.
- */
 #ifndef _WINDOWS_
 #ifndef WINDOWS_FIBER_H
 #define WINDOWS_FIBER_H
@@ -51,21 +47,18 @@ LPVOID WINAPI ConvertThreadToFiber(LPVOID lpParameter);
 LPVOID WINAPI ConvertThreadToFiberEx(LPVOID lpParameter, DWORD dwFlags);
 
 #ifdef _AMD64_
-__inline PVOID
-GetCurrentFiber(void)
+__inline PVOID GetCurrentFiber(void)
 {
     return (PVOID)(ULONG_PTR)__readgsqword(0x20);
 }
 #else
-__inline PVOID
-GetCurrentFiber(void)
+__inline PVOID GetCurrentFiber(void)
 {
     return (PVOID)(ULONG_PTR)__readfsdword(0x10);
 }
 #endif
 
-__forceinline PVOID
-GetFiberData(void)
+__forceinline PVOID GetFiberData(void)
 {
     return *(PVOID *)GetCurrentFiber();
 }

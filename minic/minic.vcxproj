@@ -62,7 +62,6 @@
     <ClInclude Include="include\minic\timer.h" />
     <ClInclude Include="include\minic\win32_platform.h" />
     <ClInclude Include="include\minic\window.h" />
-    <ClInclude Include="third_party\include\win32\winuser.h" />
     <ClInclude Include="src\minic\win32_timer.cpp" />
     <ClInclude Include="third_party\include\win32\atomic.h" />
     <ClInclude Include="third_party\include\win32\dbghelp.h" />
@@ -77,9 +76,10 @@
     <ClInclude Include="third_party\include\win32\sysinfo.h" />
     <ClInclude Include="third_party\include\win32\threads.h" />
     <ClInclude Include="third_party\include\win32\window.h" />
-    <ClInclude Include="third_party\include\win32\_remove_me_windows.h" />
     <ClInclude Include="third_party\include\win32\windows_base.h" />
     <ClInclude Include="third_party\include\win32\windows_modular.h" />
+    <ClInclude Include="third_party\include\win32\winuser.h" />
+    <ClInclude Include="third_party\include\win32\_remove_me_windows.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />

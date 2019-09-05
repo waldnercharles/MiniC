@@ -1,10 +1,10 @@
 #include "minic/log.h"
 
+//#include <Windows.h>
 #include <win32/file.h>
 #include <win32/io.h>
 
-void *
-log_handle(void)
+void *log_handle(void)
 {
     static HANDLE handle = NULL;
 

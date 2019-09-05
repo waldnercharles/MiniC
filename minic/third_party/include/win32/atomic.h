@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Copyright (c) Arvid Gerstmann. All rights reserved.
- */
 #ifndef _WINDOWS_
 #ifndef WINDOWS_ATOMIC_H
 #define WINDOWS_ATOMIC_H
@@ -187,8 +183,7 @@ void _ReadWriteBarrier(void);
 #define YieldProcessor _mm_pause
 
 #elif defined(_M_IX86)
-FORCEINLINE void
-MemoryBarrier(void)
+FORCEINLINE void MemoryBarrier(void)
 {
     LONG Barrier;
     __asm {

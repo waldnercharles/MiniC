@@ -4,6 +4,7 @@
 #include "minic/log.h"
 #include "minic/string.h"
 
+//#include <Windows.h>
 #include <win32/file.h>
 #include <win32/io.h>
 #include <win32/misc.h>
@@ -26,8 +27,7 @@ struct File
     usize size;
 };
 
-static void
-file_read_ext(File *file)
+static void file_read_ext(File *file)
 {
     assert(file != NULL);
 
@@ -57,20 +57,17 @@ file_read_ext(File *file)
     }
 }
 
-inline bool
-directory_has_next(Directory *dir)
+inline bool directory_has_next(Directory *dir)
 {
     return dir->has_next;
 }
 
-inline const char *
-directory_path(Directory *dir)
+inline const char *directory_path(Directory *dir)
 {
     return dir->path;
 }
 
-bool
-directory_open(Directory *dir, const char *path)
+bool directory_open(Directory *dir, const char *path)
 {
     assert(dir != NULL);
     assert(path != NULL);
@@ -100,8 +97,7 @@ directory_open(Directory *dir, const char *path)
     return dir->has_next;
 }
 
-void
-directory_close(Directory *dir)
+void directory_close(Directory *dir)
 {
     dir->path[0] = 0;
     dir->has_next = false;
@@ -111,8 +107,7 @@ directory_close(Directory *dir)
     }
 }
 
-void
-directory_next(Directory *dir)
+void directory_next(Directory *dir)
 {
     assert(dir != NULL);
     assert(dir->has_next);
@@ -135,8 +130,7 @@ directory_next(Directory *dir)
     }
 }
 
-void
-directory_read_file(Directory *dir, File *file)
+void directory_read_file(Directory *dir, File *file)
 {
     assert(dir != NULL);
     assert(dir->handle != INVALID_HANDLE_VALUE);
@@ -166,14 +160,12 @@ directory_read_file(Directory *dir, File *file)
     file_read_ext(file);
 }
 
-inline const char *
-file_name(File *file)
+inline const char *file_name(File *file)
 {
     return file->name;
 }
 
-inline const char *
-file_ext(File *file)
+inline const char *file_ext(File *file)
 {
     return file->ext;
 }

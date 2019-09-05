@@ -1,9 +1,10 @@
-#include <win32/io.h>
-
 #include "minic/allocator_default.h"
 #include "minic/assert.h"
 #include "minic/int.h"
 #include "minic/log.h"
+
+//#include <Windows.h>
+#include <win32/io.h>
 
 struct CAllocator
 {
@@ -69,6 +70,8 @@ void c_allocator_init(Allocator *allocator)
     CAllocator *self =
         cast(CAllocator *,
              HeapAlloc(handle, HEAP_ZERO_MEMORY, sizeof(CAllocator)));
+
+    self->handle = handle;
 
     allocator_init(allocator,
                    self,

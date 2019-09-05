@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Copyright (c) Arvid Gerstmann. All rights reserved.
- */
 #ifndef _WINDOWS_
 #ifndef WINDOWS_BASE_H
 #define WINDOWS_BASE_H
@@ -95,7 +91,10 @@ extern "C" {
 #undef CONST_VTBL
 #define CONST_VTBL const
 #define DECLARE_INTERFACE(iface)                                               \
-    typedef interface iface { const struct iface##Vtbl *lpVtbl; }              \
+    typedef interface iface                                                    \
+    {                                                                          \
+        const struct iface##Vtbl *lpVtbl;                                      \
+    }                                                                          \
     iface;                                                                     \
     typedef const struct iface##Vtbl iface##Vtbl;                              \
     const struct iface##Vtbl
@@ -105,7 +104,10 @@ extern "C" {
 #undef CONST_VTBL
 #define CONST_VTBL
 #define DECLARE_INTERFACE(iface)                                               \
-    typedef interface iface { struct iface##Vtbl *lpVtbl; }                    \
+    typedef interface iface                                                    \
+    {                                                                          \
+        struct iface##Vtbl *lpVtbl;                                            \
+    }                                                                          \
     iface;                                                                     \
     typedef struct iface##Vtbl iface##Vtbl;                                    \
     struct iface##Vtbl
