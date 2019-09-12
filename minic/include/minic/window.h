@@ -18,11 +18,19 @@ struct Win32Window
 struct Window
 {
     const wchar *title;
+
     Win32Window win32;
 };
 
+void window_init(Window *window,
+                 const wchar *title,
+                 s32 width,
+                 s32 height,
+                 s32 xpos,
+                 s32 ypos);
+
+void window_init(Window *window, const wchar *title, s32 width, s32 height);
 void window_init(Window *window, const wchar *title);
-void window_create(Window *window);
 
 void window_show(Window *window);
 void window_hide(Window *window);

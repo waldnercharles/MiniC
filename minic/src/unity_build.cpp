@@ -31,7 +31,9 @@
 #include "minic/win32_io.cpp"
 #include "minic/win32_log.cpp"
 #include "minic/win32_timer.cpp"
-#include "minic/window.cpp"
+
+#include "minic/win32_platform.cpp"
+#include "minic/win32_window.cpp"
 
 extern "C" void *__stdcall memset(void *dst, int val, size_t size);
 extern "C" int __stdcall mainCRTStartup();

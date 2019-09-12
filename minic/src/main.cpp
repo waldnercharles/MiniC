@@ -4,7 +4,7 @@
 #include "minic/int.h"
 #include "minic/io.h"
 #include "minic/memory.h"
-#include "minic/win32_platform.h"
+#include "minic/platform.h"
 #include "minic/window.h"
 
 //#include "minic/asset.h"
@@ -86,8 +86,7 @@ extern "C" int __stdcall mainCRTStartup()
 
     Window window = {};
 
-    window_init(&window, L"Hello World!");
-    window_create(&window);
+    window_init(&window, L"Hello World!", 800, 600);
     window_show(&window);
 
     return 0;
