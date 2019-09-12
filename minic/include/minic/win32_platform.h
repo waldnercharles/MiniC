@@ -113,8 +113,8 @@ void platform_init(Platform *platform)
 {
     assert(platform != NULL);
 
-    platform->win32.user32.handle = LoadLibraryA("User32.dll");
-    assert(platform->win32.user32.handle != NULL);
+    // platform->win32.user32.handle = LoadLibraryA("User32.dll");
+    // assert(platform->win32.user32.handle != NULL);
 
     platform_register_window_class(platform);
 

@@ -3,14 +3,19 @@
 #include "minic/assert.h"
 #include "minic/io.h"
 
-#define log_level_none 0
-#define log_level_error 1
-#define log_level_warning 2
-#define log_level_info 3
-#define log_level_debug 4
+#define LOG_LEVEL_NONE 0
+#define LOG_LEVEL_ERROR 1
+#define LOG_LEVEL_WARNING 2
+#define LOG_LEVEL_INFO 3
+#define LOG_LEVEL_DEBUG 4
+#define LOG_LEVEL_TRACE 5
 
-#ifndef log_level
-#define log_level log_level_debug
+#ifndef LOG_LEVEL
+#define LOG_LEVEL LOG_LEVEL_TRACE
+#endif
+
+#ifndef LOG_QUIET
+#define LOG_QUIET 1
 #endif
 
 void *log_handle(void);
@@ -23,23 +28,45 @@ void *log_handle(void);
                      __LINE__,                                                 \
                      ##__VA_ARGS__)
 
+// void log(s32 level, const char *file, s32 line, const char *fmt, ...)
+//{
+//    if (level < LOG_LEVEL)
+//    {
+//        return;
+//    }
+//
+//    // TODO: Locking
+//
+//    if (!LOG_QUIET)
+//    {
+//        va_list args;
+//        char buf[16];
+//
+//		(void)args
+//    }
+//}
+
 #define log_error(message, ...) log(message, "ERROR", ##__VA_ARGS__)
 #define log_warning(message, ...) log(message, "WARNING", ##__VA_ARGS__)
 #define log_info(message, ...) log(message, "INFO", ##__VA_ARGS__)
 #define log_debug(message, ...) log(message, "DEBUG", ##__VA_ARGS__)
 
-#if log_level < log_level_error
+#if LOG_LEVEL < LOG_LEVEL_ERROR
+#undef log_error
 #define log_error(message, ...)
 #endif
 
-#if log_level < log_level_warning
+#if LOG_LEVEL < LOG_LEVEL_WARNING
+#undef log_warning
 #define log_warning(message, ...)
 #endif
 
-#if log_level < log_level_info
+#if LOG_LEVEL < LOG_LEVEL_INFO
+#undef log_info
 #define log_info(message, ...)
 #endif
 
-#if log_level < log_level_debug
+#if LOG_LEVEL < LOG_LEVEL_DEBUG
+#undef log_debug
 #define log_debug(message, ...)
 #endif
