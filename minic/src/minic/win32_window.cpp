@@ -1,15 +1,11 @@
 #include "minic/assert.h"
 #include "minic/log.h"
-
 #include "minic/platform.h"
 #include "minic/window.h"
 
-//#include "stddef.h"
-
-//#include <Windows.h>
-#include "win32/winuser.h"
-#include "win32/misc.h"
 #include "win32/gdi.h"
+#include "win32/misc.h"
+#include "win32/winuser.h"
 
 static LRESULT CALLBACK window_message_proc(HWND hwnd,
                                             UINT umsg,
