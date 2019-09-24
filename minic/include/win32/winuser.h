@@ -12,7 +12,7 @@
 #endif
 
 #ifndef WINDOWS_WINDOW_H
-#include "window.h"
+#include "win32/window.h"
 #endif
 
 #if defined(__cplusplus)

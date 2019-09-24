@@ -84,35 +84,31 @@ void window_init(Window *window,
     assert(title != NULL);
 
     static bool registered = false;
-
-    if (!registered)
+    if (!registered && !(registered = window_register_window_class()))
     {
-        registered = window_register_window_class();
+        return;
     }
 
-    if (registered)
+    window->title = title;
+
+    HINSTANCE instance = GetModuleHandleW(NULL);
+
+    window->win32.window_handle = CreateWindowExW(0,
+                                                  L"MINIC",
+                                                  window->title,
+                                                  WS_OVERLAPPEDWINDOW,
+                                                  xpos,
+                                                  ypos,
+                                                  width,
+                                                  height,
+                                                  NULL,
+                                                  NULL,
+                                                  instance,
+                                                  NULL);
+    if (window->win32.window_handle == NULL)
     {
-        window->title = title;
-
-        HINSTANCE instance = GetModuleHandleW(NULL);
-
-        window->win32.window_handle = CreateWindowExW(0,
-                                                      L"MINIC",
-                                                      window->title,
-                                                      WS_OVERLAPPEDWINDOW,
-                                                      xpos,
-                                                      ypos,
-                                                      width,
-                                                      height,
-                                                      NULL,
-                                                      NULL,
-                                                      instance,
-                                                      NULL);
-        if (window->win32.window_handle == NULL)
-        {
-            platform_error("win32: Failed to create window");
-            return;
-        }
+        platform_error("win32: Failed to create window");
+        return;
     }
 }
 

@@ -44,7 +44,7 @@ LFLAGS = \
 	-libpath:"$(VC_PATH)\lib\x64" \
 	-libpath:"$(WINSDK_PATH)\lib\$(WINSDK_VERSION)\um\x64" \
 	-libpath:"$(WINSDK_PATH)\lib\$(WINSDK_VERSION)\ucrt\x64" \
-	User32.lib Gdi32.lib winmm.lib kernel32.lib
+	user32.lib gdi32.lib winmm.lib kernel32.lib opengl32.lib
 
 	#-libpath:"third_party\lib\x64"
 

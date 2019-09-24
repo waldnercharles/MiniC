@@ -62,6 +62,7 @@
     <ClInclude Include="include\minic\timer.h" />
     <ClInclude Include="include\minic\platform.h" />
     <ClInclude Include="include\minic\window.h" />
+    <ClInclude Include="include\win32\wingdi.h" />
     <ClInclude Include="src\minic\win32_timer.cpp" />
     <ClInclude Include="src\minic\win32_platform.cpp" />
     <ClInclude Include="third_party\include\win32\atomic.h" />
@@ -79,7 +80,7 @@
     <ClInclude Include="third_party\include\win32\window.h" />
     <ClInclude Include="third_party\include\win32\windows_base.h" />
     <ClInclude Include="third_party\include\win32\windows_modular.h" />
-    <ClInclude Include="third_party\include\win32\winuser.h" />
+    <ClInclude Include="include\win32\winuser.h" />
     <ClInclude Include="third_party\include\win32\_remove_me_windows.h" />
   </ItemGroup>
   <ItemGroup>
@@ -168,7 +169,7 @@
     <ExecutablePath>C:\Program Files\LLVM\bin;$(ExecutablePath)</ExecutablePath>
     <AdditionalOptions>/std:c++17</AdditionalOptions>
     <IntDir>.\bin</IntDir>
-    <NMakeIncludeSearchPath>$(ProjectDir)\third_party\include;$(ProjectDir)\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\shared;C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt;C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>$(ProjectDir)\third_party\include;$(ProjectDir)\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared;C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt;C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakePreprocessorDefinitions>DEBUG</NMakePreprocessorDefinitions>

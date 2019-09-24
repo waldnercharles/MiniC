@@ -7,6 +7,10 @@
 #include "minic/platform.h"
 #include "minic/window.h"
 
+#include "win32/wingdi.h"
+//#include <Windows.h>
+#include <gl/GL.h>
+
 //#include "minic/asset.h"
 //#include "minic/file.h"
 //#include "minic/handle.h"
